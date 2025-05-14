@@ -1,0 +1,25 @@
+.toggleLabel {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+
+    &Text {
+        min-height: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    &:hover {
+        background-color: var(--skeleton);
+        filter: brightness(0.95);
+    }
+
+    &.toggledUp {
+        background-color: var(--skeleton);
+    }
+}

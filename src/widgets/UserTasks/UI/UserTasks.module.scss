@@ -1,0 +1,27 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
+.userTasks {
+    position: relative;
+    padding-bottom: 70px;
+
+    @include media-breakpoint-down(mobile) {
+        padding-bottom: 60px;
+    }
+
+    .emptyWrapper {
+        width: 100%;
+        flex-grow: 1;
+        min-height: 150px;
+        max-height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .kanbanRedirectButton {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: calc(100% - 40px);
+    }
+}

@@ -1,0 +1,41 @@
+@import "reset";
+@import "variables/globals";
+@import "themes/dark";
+@import "themes/normal";
+@import "../../shared/styles/mixins/scrollbar";
+
+.app {
+    background: var(--main-bg);
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+.content-page {
+    display: flex;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    height: calc(100vh - var(--navbar-height));
+}
+
+.page-wrapper {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+    padding: 20px;
+    overflow-y: scroll;
+    @include showScrollOnHover(0, 0);
+}
+
+.page-content-wrapper {
+    width: 100%;
+    max-width: 1680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}

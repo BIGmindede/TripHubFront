@@ -1,0 +1,79 @@
+.tablesPieChart {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px;
+    width: 100%;
+
+    .chartWrapper {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75%;
+            height: 75%;
+            border-radius: 50%;
+            background: transparent;
+            z-index: 1;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .emptyChart {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 8px solid var(--skeleton);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--hint-color);
+            background: var(--skeleton);
+        }
+    }
+
+    .legend {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .legendItem {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+
+        &:hover {
+            .colorMarker {
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    .colorMarker {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        transition: transform 0.2s;
+    }
+} 

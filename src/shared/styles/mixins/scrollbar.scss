@@ -1,0 +1,27 @@
+@mixin showScrollOnHover($margin-top-size: 0px, $margin-bot-size: 0px) {
+    --scrollbar-color: transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        margin: $margin-top-size 0 $margin-bot-size 0;
+        background: transparent;
+        opacity: 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: transparent;
+    }
+
+    &:hover{
+        --scrollbar-color: var(--scrollbar);
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--scrollbar);
+        }
+    }
+}

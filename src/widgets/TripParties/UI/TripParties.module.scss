@@ -1,0 +1,32 @@
+@import '../../../shared/styles/mixins/scrollbar.scss';
+
+.tripParties {
+    position: relative;
+    overflow: hidden;
+    min-height: 260px;
+    max-height: 100%;
+    gap: 4px;
+    overflow: auto;
+    @include showScrollOnHover();
+
+    .addPartiesSubmitButton {
+        flex-grow: 1;
+        
+        &Wrapper {
+            display: flex;
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            background-color: var(--standart-el);
+            padding: 10px 20px 20px 20px;
+        }
+    }
+
+    &Profile {
+        padding: 0 10px 0 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

@@ -1,0 +1,10 @@
+.themeswitcher {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.themeswitcher * {
+    width: 50px;
+    fill: var(--accent-txt);
+}

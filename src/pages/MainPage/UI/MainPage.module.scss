@@ -1,0 +1,21 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
+.userSection {
+    display: flex;
+    gap: 10px;
+    
+    @include media-breakpoint-down(mobile) {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .currentTripWidget {
+        flex-grow: 1;
+        max-width: 420px;
+        height: fit-content;
+
+        @include media-breakpoint-down(mobile) {
+            max-width: 100%;
+        }
+    }
+}

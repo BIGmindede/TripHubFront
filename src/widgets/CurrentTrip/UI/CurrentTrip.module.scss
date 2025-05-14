@@ -1,0 +1,27 @@
+.currentTrip {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.noTrip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+
+    &Text {
+        color: var(--pale-txt);
+    }
+}
+
+.saveTripDataButton {
+    margin-bottom: 10px;
+}

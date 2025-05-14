@@ -1,0 +1,63 @@
+.sidebar {
+    position: sticky;
+    top: var(--navbar-height);
+    height: calc(100vh - var(--navbar-height));
+    width: var(--sidebar-width);
+    background: var(--standart-el);
+    transition: width 0.25s ease-in-out;
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: baseline;
+    gap: 20px;
+    padding: 10px 0;
+    overflow-x: hidden;
+
+    .navItem {
+        width: var(--sidebar-width);
+        display: flex;
+        align-items: center;
+        padding: 5px 15px;
+        position: relative;
+
+        .link {
+            padding: 10px 5px;
+            width: 100%;
+            height: auto;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            
+            &Text {
+                transition: opacity ease-in-out 0.25s;
+            }
+            
+            &Icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+
+                &Current::after {
+                    content: "";
+                    height: 2px;
+                    width: 150%;
+                    border-radius: 2px;
+                    background-color: var(--accent-txt);
+                    position: absolute;
+                    bottom: -8px;
+                }
+            }
+        }
+    }
+}
+
+.collapsed {
+    width: var(--sidebar-width-collapsed);
+
+    .navItem {
+        .linkText {
+            opacity: 0;
+        }
+    }
+}

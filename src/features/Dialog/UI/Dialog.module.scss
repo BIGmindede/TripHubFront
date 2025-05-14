@@ -1,0 +1,46 @@
+@import '../../../shared/styles/mixins/scrollbar.scss';
+
+.dialog {
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    background: var(--standart-el);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 0 var(--transp-bg);
+    max-height: 400px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px 10px 5px 5px;
+    background: var(--accent-el);
+    width: 100%;
+    z-index: 2;
+}
+
+.headerTitle {
+    flex: 1;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 10px;
+    height: fit-content;
+    overflow-y: auto;
+    @include showScrollOnHover;
+}
+
+.body {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

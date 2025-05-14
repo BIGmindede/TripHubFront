@@ -1,0 +1,21 @@
+.accent {
+    color: var(--accent-txt);
+}
+
+.invert {
+    color: var(--invert-accent-txt);
+}
+
+.pale {
+    color: var(--pale-txt);
+}
+
+.icon {
+    path {
+        stroke: currentColor;
+    }
+
+    path[fill] {
+        fill: currentColor;
+    }
+}

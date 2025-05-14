@@ -1,0 +1,17 @@
+.journeyTrack {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .vehicles {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .trackLine {
+        width: 100%;
+        height: 0;
+        border-top: 5px dashed var(--accent-txt);
+    }
+}

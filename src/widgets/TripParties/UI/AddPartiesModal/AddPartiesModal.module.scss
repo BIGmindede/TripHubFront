@@ -1,0 +1,35 @@
+.addPartiesModal {
+    max-width: 500px;
+    min-height: 300px;
+    max-height: 320px;
+
+    .searchedProfiles {
+        margin-top: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        background-color: var(--skeleton);
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 10px;
+
+        &Card:hover {
+            cursor: pointer;
+            background-color: var(--standart-el);
+        }
+    }
+
+    .addPartiesSubmitButton {
+        flex-grow: 1;
+        
+        &Wrapper {
+            display: flex;
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            background-color: var(--standart-el);
+            padding: 10px;
+        }
+    }
+}

@@ -1,0 +1,70 @@
+@import '../../../shared/styles/mixins/scrollbar.scss';
+
+.kanbanBoard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    position: relative;
+
+    .columns {
+        display: flex;
+        gap: 20px;
+        height: fit-content;
+        overflow-x: auto;
+        @include showScrollOnHover();
+    }
+}
+
+.modalAddColumn {
+    height: fit-content;
+    max-width: clamp(280px, 100vw - 40px, 600px);
+
+    &Input {
+        width: 100%;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.addColumnButton {
+    position: sticky;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    padding: 10px;
+    background: var(--skeleton);
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+    transition: filter 0.1s ease-in-out;
+    height: 600px;
+    
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.modalActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    button {
+        flex-grow: 1;
+    }
+}

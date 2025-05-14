@@ -1,0 +1,41 @@
+.searchContainer {
+    padding: 10px;
+    background-color: var(--standart-el);
+    border-radius: 20px;
+}
+
+.searchWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.searchInput {
+    flex-grow: 1;
+    max-width: 250px;
+}
+
+.assignees {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.assignee {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+
+    &.toggledUp {
+        background-color: var(--primary-color);
+        color: var(--inverted-text-color);
+        border-color: var(--primary-color);
+    }
+} 

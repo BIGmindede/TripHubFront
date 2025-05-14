@@ -1,0 +1,69 @@
+.hiddenInput {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-family-content);
+    min-width: 100px;
+    width: 100%;
+
+    .heading {
+        font-family: var(--font-family-headers);
+        font-weight: 400;
+        color: var(--accent-txt) !important;
+        &.l {
+            font-size: 20px;
+            line-height: 24px;
+        }
+    
+        &.m {
+            font-size: 18px;
+            line-height: 22px;
+        }
+    
+        &.s {
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+
+    .input {
+        color: var(--accent-txt);
+        height: 30px;
+        font-size: 16px;
+        line-height: 20px;
+        background-color: var(--skeleton);
+        display: flex;
+        border-radius: 10px;
+        padding: 10px;
+
+        &.hidden {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &::placeholder, &:disabled {
+            color: var(--pale-txt);
+        }
+
+        &:focus {
+            color: var(--accent-txt);
+            background-color: var(--skeleton);
+        }
+    }
+
+    
+    .buttons {
+
+        display: flex;
+        gap: 4px;
+        flex-direction: row;
+    }
+
+    .toggleButton {
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+    }
+
+    
+}

@@ -1,0 +1,97 @@
+.datePicker {
+    position: relative;
+    width: 100%;
+    padding: 0 !important;
+    gap: 2px;
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    &Label {
+        margin-left: 4px;
+        color: var(--pale-txt);
+    }
+}
+
+.inputWrapper {
+    width: 100%;
+    cursor: pointer;
+    background-color: var(--skeleton);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 10px !important;
+    overflow: hidden;
+}
+
+.input {
+    height: 100%;
+    padding: 10px 0 !important;
+    flex-grow: 1;
+    font-size: 16px;
+    font-family: var(--font-family-content);
+    background: transparent;
+    transition: border-color 0.2s ease;
+    border: none;
+    color: var(--pale-txt);
+    width: calc(100% - 30px);
+
+    &:focus {
+        color: var(--accent-txt);
+    }
+}
+
+.calendar {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 1000;
+    width: fit-content;
+    background-color: var(--standart-el);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 var(--transp-bg);
+    padding: 10px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.navButton {
+    width: 20px;
+    height: 20px;
+    color: var(--accent-txt);
+}
+
+.weekDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.daysGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.1s ease;
+
+    &:hover {
+        background-color: var(--skeleton);
+    }
+} 

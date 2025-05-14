@@ -1,0 +1,31 @@
+.budgetWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+
+    .tablesWrapper {
+        display: grid;
+        grid-template-columns: auto;
+    }
+
+    .budgetTable {
+        min-width: 280px;
+    }
+
+    .addTableButton {
+        width: 100%;
+    }
+}
+
+.addTableModal {
+    max-width: 400px;
+    width: 100%;
+    height: fit-content !important;
+
+    .addTableInput {
+        width: 100%;
+    }
+}

@@ -1,0 +1,117 @@
+.burgermenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--transp-bg);
+    backdrop-filter: blur(7px);
+    animation: appear 0.25s ease-in-out;
+    z-index: 999;
+
+    .menu {
+        position: absolute;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100vw;
+        background: var(--standart-el);
+        padding: 20px;
+        animation: menuAppear 0.25s ease-in-out;
+        z-index: 3;
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+
+            .navItem {
+                list-style: none;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                
+                .link {
+                    padding: 10px 5px;
+                    width: 100%;
+                    height: auto;
+                    display: inline-flex;
+                    gap: 20px;
+
+                    &Icon {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+
+                        &Current::after {
+                            content: "";
+                            height: 2px;
+                            width: 150%;
+                            border-radius: 2px;
+                            background-color: var(--accent-txt);
+                            position: absolute;
+                            bottom: -8px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.collapsed {
+        animation: disappear 0.25s ease-in-out;
+        display: none;
+
+        .menu {
+            top: -30%;
+            opacity: 0;
+            animation: menuDisappear 0.25s ease-in-out;
+        }
+    }
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes disappear {
+    0% {
+        opacity: 1;
+        display: block;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+@keyframes menuAppear {
+    0% {
+        opacity: 0;
+        top: -30%;
+    }
+    100% {
+        opacity: 1;
+        top: 0;
+    }
+}
+
+@keyframes menuDisappear {
+    0% {
+        top: 0;
+        opacity: 1;
+    }
+    100% {
+        top: -30%;
+        opacity: 0;
+    }
+}

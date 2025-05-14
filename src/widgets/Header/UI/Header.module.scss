@@ -1,0 +1,46 @@
+.header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    min-width: 200px;
+    height: var(--navbar-height);
+    background: var(--accent-el);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    padding: 0 15px 0 10px;
+    z-index: 3;
+}
+
+.mobile {
+    justify-content: space-between;
+}
+
+.navs {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--accent-txt);
+    gap: 20px;
+
+    > * {
+        user-select: none;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px
+    }
+}
+
+.icon {
+    fill: var(--accent-txt);
+}
+
+.authbtns {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px
+}

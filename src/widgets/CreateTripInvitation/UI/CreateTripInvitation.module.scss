@@ -1,0 +1,17 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
+.createTripInvitation {
+    min-width: 300px;
+    max-width: 500px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: fit-content;
+
+    @include media-breakpoint-down(mobile) {
+        max-width: 100%;
+    }
+
+    .startTripButton {
+        width: fit-content;
+    }
+}

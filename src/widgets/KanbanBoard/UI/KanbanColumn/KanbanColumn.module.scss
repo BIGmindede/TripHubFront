@@ -1,0 +1,71 @@
+@import 'shared/styles/mixins/scrollbar.scss';
+
+.KanbanColumn {
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 80px);
+    max-width: 300px;
+    min-width: 300px;
+    height: auto;
+    transition: filter 0.1s;
+    padding: 10px;
+    background: var(--standart-el);
+    border-radius: 20px;
+    gap: 10px;
+    overflow: hidden;
+    height: 600px;
+
+    &.dragOver {
+        filter: brightness(0.9);
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        gap: 10px;
+
+        .titleInput {
+            width: 100%; 
+        }
+
+        .tasksCount {
+            padding: 0 10px;
+            color: var(--pale-txt);
+        }
+    }
+
+
+    .tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-y: auto;
+        flex-grow: 1;
+        user-select: none;
+        @include showScrollOnHover();
+    }
+
+    .placeholder {
+        min-height: 120px;
+        border-radius: 10px;
+    }
+
+    .addTaskButton {
+        background: var(--skeleton);
+        bottom: 0;
+        width: 100%;
+        flex-shrink: 0;
+        height: 40px;
+        transition: filter 0.1s;
+
+        &:hover {
+            filter: brightness(0.9);
+        }
+    }
+}
+
+.addTaskModal {
+    height: fit-content !important;
+}

@@ -1,0 +1,77 @@
+.notificationsDialog {
+    width: 300px;
+    max-height: 400px;
+}
+
+.notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--skeleton);
+    transition: filter 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
+
+.notificationHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+}
+
+.notificationIsReadMark {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--active-marker);
+    position: absolute;
+    top: -2px;
+    right: -2px;
+}
+
+.notificationTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+.timestamp {
+    flex-shrink: 0;
+    color: var(--pale-txt);
+}
+
+.message {
+    color: var(--main-txt);
+}
+
+.emptyMessage {
+    text-align: center;
+    color: var(--pale-txt);
+    padding: 20px 0;
+}
+
+.notificationActions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.notificationActionsButton{
+    width: 30px;
+    height: 30px;
+}

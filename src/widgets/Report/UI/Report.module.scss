@@ -1,0 +1,24 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
+.tripDetails {
+    background-color: transparent !important;
+
+    &Form {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+
+        @include media-breakpoint-down(tablet) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @include media-breakpoint-down(mobile) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+    &Field {
+        width: 100%;
+    }
+}

@@ -1,0 +1,39 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
+.statistics {
+    min-width: 300px;
+    height: fit-content;
+
+    .numerableStats {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+
+        @include media-breakpoint-down(tablet) {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .objectStats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+
+        @include media-breakpoint-down(tablet) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .statCell {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 10px;
+        gap: 10px;
+        border-radius: 10px;
+    }
+}
+
+.emptyStub {
+    color: var(--pale-txt);
+}

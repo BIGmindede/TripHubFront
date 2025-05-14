@@ -1,0 +1,90 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
+.button {
+    background-color: var(--sec-bg);
+    color: var(--accent-txt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    height: 40px;
+    gap: 10px;
+
+    @include media-breakpoint-down(mobile) {
+        height: 30px;
+    }
+
+    &:disabled, &:disabled:hover {
+        color: var(--pale-txt);
+        filter: brightness(1);
+
+        svg {
+            color: var(--pale-txt);
+        }
+    }
+
+    .buttonText {
+        line-height: 10px !important;
+    }
+}
+
+.basic {
+    transition: filter 0.10s ease-in-out;
+    min-width: 150px;
+    padding: 0 20px;
+}
+
+.basic:hover {
+    filter: brightness(0.85);
+}
+
+.round {
+    padding: 0;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    flex-shrink: 0;
+}
+
+.round:hover {
+    filter: brightness(0.95);
+}
+
+.clear {
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.outline {
+    padding: 10px 20px;
+    border: 1px solid var(--accent-txt);
+    background: none;
+    box-shadow: none;
+    min-width: 150px;
+}
+
+.red {
+    background-color: #FF2400;
+    color: #FFF;
+    padding: 0 20px;
+}
+
+.inText {
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+    font-family: var(--font-family-content);
+    font-size: 16px;
+    font-weight: 400;
+
+    &:hover {
+        .inTextText {
+            color: var(--accent-txt);
+        }
+    }
+}
