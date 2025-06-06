@@ -5,6 +5,7 @@
     overflow: hidden;
     min-height: 260px;
     max-height: 100%;
+    min-width: 274px;
     gap: 4px;
     overflow: auto;
     @include showScrollOnHover();

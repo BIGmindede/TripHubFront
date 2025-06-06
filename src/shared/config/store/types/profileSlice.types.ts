@@ -14,7 +14,13 @@ export interface Profile {
   enabled: boolean;
 }
 
-export interface ProfileState {
+export interface CurrentProfileState {
+  currentProfile: Profile | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface ProfileDetailsState {
   profile: Profile | null;
   isLoading: boolean;
   error: string | null;

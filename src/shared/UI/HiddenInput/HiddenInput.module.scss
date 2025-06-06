@@ -1,15 +1,18 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
 .hiddenInput {
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: var(--font-family-content);
-    min-width: 100px;
+    min-width: 60px;
     width: 100%;
 
     .heading {
         font-family: var(--font-family-headers);
         font-weight: 400;
         color: var(--accent-txt) !important;
+
         &.l {
             font-size: 20px;
             line-height: 24px;
@@ -29,12 +32,11 @@
     .input {
         color: var(--accent-txt);
         height: 30px;
-        font-size: 16px;
-        line-height: 20px;
-        background-color: var(--skeleton);
+        background-color: var(--skeleton) !important;
         display: flex;
         border-radius: 10px;
-        padding: 10px;
+        width: 100%;
+        padding: 0 10px;
 
         &.hidden {
             overflow: hidden;
@@ -49,11 +51,14 @@
             color: var(--accent-txt);
             background-color: var(--skeleton);
         }
-    }
 
+        @include media-breakpoint-down(mobile) {
+            font-size: 14px;
+            line-height: 18px;
+        }
+    }
     
     .buttons {
-
         display: flex;
         gap: 4px;
         flex-direction: row;
@@ -64,6 +69,4 @@
         width: 30px;
         cursor: pointer;
     }
-
-    
 }

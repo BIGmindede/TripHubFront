@@ -1,0 +1,90 @@
+.carousel {
+    --slide-spacing: 10px;
+    --slide-size: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 40px;
+
+    &Viewport {
+        overflow: hidden;
+    }
+
+    &Container {
+        backface-visibility: hidden;
+        display: flex;
+        touch-action: pan-y;
+        margin-left: calc(var(--slide-spacing) * -1);
+    }
+
+    &Empty {
+        width: 100%;
+        height: 300px;
+        background: var(--standart-el);
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &Slide {
+        flex: 0 0 var(--slide-size);
+        min-width: 0;
+        padding-left: var(--slide-spacing);
+        height: 100%;
+        
+        &Inner {
+            position: relative;
+            height: 100%;
+        }
+    }
+
+    &Controls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        align-self: flex-end;
+        gap: 10px;
+        padding: 10px;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border-radius: 0 10px 0 10px;
+    }
+
+    &Button {
+        height: 15px;
+        width: 15px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        
+        &Next {
+            rotate: 180deg;
+        }
+    }
+
+    &Dots {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    &Dot {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: none;
+        border: 2px solid var(--pale-txt);
+        cursor: pointer;
+        transition: background 0.1s ease-in-out;
+
+        &.dotSelected {
+            background: var(--active-marker);
+        }
+    }
+}

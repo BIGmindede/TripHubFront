@@ -24,6 +24,12 @@ export interface Notification {
     actions: string;
 }
 
+export interface NotificationsState {
+  notifications: Notification[];
+  isLoading: boolean;
+  error: string | null;
+}
+
 export interface HtmlTemplateAction {
     text: string;
     url: string;

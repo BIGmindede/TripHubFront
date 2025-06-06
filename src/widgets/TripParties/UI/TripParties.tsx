@@ -1,10 +1,7 @@
 import { UserCard } from 'features/UserCard';
 import { WidgetWrapper } from 'features/WidgetWrapper/WidgetWrapper'
 import { useEffect } from 'react'
-import { getProfilesByIds } from 'shared/config/store/actionCreators/profilesActions';
 import { deleteParticipations } from 'shared/config/store/actionCreators/tripActions';
-import { selectProfile, selectProfiles } from 'shared/config/store/selectors/profileSelectors';
-import { tripDetailsSelector, tripParticipationsSelector } from 'shared/config/store/selectors/tripSelectors'
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
 import { ToggleLabel } from 'shared/UI/ToggleLabel/ToggleLabel';
@@ -12,14 +9,17 @@ import cls from './TripParties.module.scss'
 import { Button, ButtonTheme } from 'shared/UI/Button/Button';
 import { AddPartiesModal } from './AddPartiesModal/AddPartiesModal';
 import { useToggle } from 'shared/hooks/useToggle';
+import { currentTripParticipationsSelector, currentTripSelector } from 'shared/config/store/selectors/tripSelectors';
+import { currentProfileSelector, profilesSelector } from 'shared/config/store/selectors/profileSelectors';
+import { getProfilesByIds } from 'shared/config/store/actionCreators/profileActions';
 
 export const TripParties = () => {
     const dispatch = useAppDispatch();
 
-    const currentTrip = useAppSelector(tripDetailsSelector);
-    const participants = useAppSelector(tripParticipationsSelector);
-    const partiesProfiles = useAppSelector(selectProfiles);
-    const currentProfile = useAppSelector(selectProfile);
+    const currentTrip = useAppSelector(currentTripSelector);
+    const participants = useAppSelector(currentTripParticipationsSelector);
+    const partiesProfiles = useAppSelector(profilesSelector);
+    const currentProfile = useAppSelector(currentProfileSelector);
 
     const {isToggleUp, toggle} = useToggle();
 
@@ -39,9 +39,10 @@ export const TripParties = () => {
             {currentProfile && currentTrip?.authorId === currentProfile.id
                 ? partiesProfiles.map(profile =>
                     <ToggleLabel
+                        key={profile.id}
+                        className={cls.tripPartiesProfile}
                         disabled={profile.id === currentProfile.id}
                         initialState={profile.id !== currentProfile.id}
-                        className={cls.tripPartiesProfile}
                         action={() => handleDeleteParticipant(profile.id)}
                     >
                         <UserCard userName={profile.tagName}/>
@@ -49,7 +50,7 @@ export const TripParties = () => {
                 )
                 : partiesProfiles.map(profile => <UserCard userName={profile.tagName}/>)
             }
-            {currentTrip?.authorId === currentProfile.id &&
+            {currentTrip && currentProfile && currentTrip?.authorId === currentProfile.id &&
                 <>
                     <div className={cls.addPartiesSubmitButtonWrapper}>
                         <Button

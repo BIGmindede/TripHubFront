@@ -1,3 +1,4 @@
+@use "shared/styles/mixins/mediaQueries" as *;
 @import '../../../shared/styles/mixins/scrollbar.scss';
 
 .textArea {
@@ -27,8 +28,15 @@
 
     &Wrapper {
         width: 100%;
-        height: fit-content
+        height: auto;
+        display: flex;
+        flex-direction: column;
     }
 
     @include showScrollOnHover(10px, 10px);
+
+    @include media-breakpoint-down(mobile) {
+        font-size: 14px;
+        line-height: 18px;
+    }
 }

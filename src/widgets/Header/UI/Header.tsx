@@ -11,16 +11,17 @@ import { useRef, useState } from 'react'
 import { Icon } from 'shared/UI/Icon/Icon'
 import { AuthDialog } from 'widgets/AuthDialog'
 import { useAppSelector } from 'shared/hooks/useAppSelector'
-import { selectIsAuthenticated } from 'shared/config/store/selectors/authSelectors'
 import { NotificationsDialog } from 'widgets/NotificationsDialog'
 import { ProfileDialog } from 'widgets/ProfileDialog/UI/ProfileDialog'
+import { isAuthenticatedSelector } from 'shared/config/store/selectors/authSelectors'
+import { useBreakpointDown } from 'shared/hooks/useBreakpoint'
 
 interface HeaderProps {
     navigationStateSetter: () => void,
-    isMobile: boolean
 }
 
-export const Header = ({ isMobile, navigationStateSetter }: HeaderProps) => {
+export const Header = ({ navigationStateSetter }: HeaderProps) => {
+    const isMobileDown = useBreakpointDown('mobile');
 
     const notificationsDialogAnchorRef = useRef<HTMLButtonElement>(null);
     const [isNotificationsDialogOpen, setIsNotificationsDialogOpen] = useState(false);
@@ -31,10 +32,10 @@ export const Header = ({ isMobile, navigationStateSetter }: HeaderProps) => {
     const profileDialogAnchorRef = useRef<HTMLButtonElement>(null);
     const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
 
-    const isAuth = useAppSelector(selectIsAuthenticated);
+    const isAuth = useAppSelector(isAuthenticatedSelector);
 
     return (
-        <header className={classNames(cls.header, {[cls.mobile]: isMobile})}>
+        <header className={classNames(cls.header, {[cls.mobile]: isMobileDown})}>
             <div className={cls.navs}>
                 <Button
                     theme={ButtonTheme.CLEAR}

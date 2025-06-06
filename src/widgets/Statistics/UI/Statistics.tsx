@@ -75,7 +75,7 @@ export const Statistics = () => {
                         </WidgetWrapper.Sector>
                     </div>
                 </>
-                : <Typography className={cls.emptyStub} variant="span" size="l">
+                : <Typography className={cls.emptyStub} variant="span" size="m">
                     Пока что нет завершенных путешествий
                 </Typography>
             }

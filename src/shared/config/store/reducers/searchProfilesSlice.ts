@@ -8,7 +8,7 @@ const initialState: ProfilesState = {
 };
 
 const searchProfilesSlice = createSlice({
-    name: 'profiles',
+    name: 'searchProfiles',
     initialState: {
         ...initialState
     },

@@ -1,13 +1,13 @@
 import { api } from ".";
-import { KanbanBoardType, Task } from "../types/kanbanSlice.types";
+import { Kanban, Task } from "../types/kanbanSlice.types";
 
 export const kanbanApi = {
     // Kanban endpoints
     createKanban: (tripId: string) => 
-      api.post<KanbanBoardType>('/kanban', null, { params: { tripId } }),
+      api.post<Kanban>('/kanban', null, { params: { tripId } }),
   
     getKanbanByTripId: (tripId: string) => 
-      api.get<KanbanBoardType>(`/kanban/by_trip/${tripId}`),
+      api.get<Kanban>(`/kanban/by_trip/${tripId}`),
   
     deleteKanbanByTripId: (tripId: string) => 
       api.delete(`/kanban/by_trip/${tripId}`),

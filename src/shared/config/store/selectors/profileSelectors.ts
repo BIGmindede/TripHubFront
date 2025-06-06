@@ -1,11 +1,17 @@
 import { AppState } from 'app/providers/storeProvider/config/appReducer';
 
-export const selectProfiles = (state: AppState) => state.profilesReducer.profiles;
-export const selectProfilesLoading = (state: AppState) => state.profilesReducer.isLoading;
-export const selectProfilesError = (state: AppState) => state.profilesReducer.error;
-export const selectProfileById = (id: string) => (state: AppState) => state.profilesReducer.profiles.find(profile => profile.id === id);
-export const selectSearchProfiles = (state: AppState) => state.searchProfilesReducer.profiles;
+export const currentProfileIsLoadingSelector = (state: AppState) => state.currentProfileReducer.isLoading;
+export const currentProfileSelector = (state: AppState) => state.currentProfileReducer.currentProfile;
+export const currentProfileErrorSelector = (state: AppState) => state.currentProfileReducer.error;
 
-export const selectProfile = (state: AppState) => state.profileReducer.profile;
-export const selectProfileLoading = (state: AppState) => state.profileReducer.isLoading;
-export const selectProfileError = (state: AppState) => state.profileReducer.error;
+export const profilesIsLoadingSelector = (state: AppState) => state.profilesReducer.isLoading;
+export const profilesSelector = (state: AppState) => state.profilesReducer.profiles;
+export const profilesErrorSelector = (state: AppState) => state.profilesReducer.error;
+
+export const profileDetailsIsLoadingSelector = (state: AppState) => state.profileDetailsReducer.isLoading;
+export const profileDetailsSelector = (state: AppState) => state.profileDetailsReducer.profile;
+export const profileDetailsErrorSelector = (state: AppState) => state.profileDetailsReducer.error;
+
+export const searchProfilesIsLoadingSelector = (state: AppState) => state.searchProfilesReducer.isLoading;
+export const searchProfilesSelector = (state: AppState) => state.searchProfilesReducer.profiles;
+export const searchProfilesErrorSelector = (state: AppState) => state.searchProfilesReducer.error;

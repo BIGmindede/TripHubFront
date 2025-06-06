@@ -3,27 +3,26 @@ import { CreateTripInvitation } from 'widgets/CreateTripInvitation/UI/CreateTrip
 import cls from './MainPage.module.scss';
 import { Statistics } from 'widgets/Statistics';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
-import { getCurrentTrip, getTripStatistics } from 'shared/config/store/actionCreators/tripActions';
+import { getTripStatistics } from 'shared/config/store/actionCreators/tripActions';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
-import { tripDetailsSelector } from 'shared/config/store/selectors/tripSelectors';
+import { currentTripSelector, tripDetailsSelector } from 'shared/config/store/selectors/tripSelectors';
 import { WidgetWrapper } from 'features/WidgetWrapper/WidgetWrapper';
 import { CurrentTrip } from 'widgets/CurrentTrip';
-import { selectIsAuthenticated } from 'shared/config/store/selectors/authSelectors';
-import { getReportById, getReports } from 'shared/config/store/actionCreators/reportActions';
+import { getReports } from 'shared/config/store/actionCreators/reportActions';
 import { useSelector } from 'react-redux';
-import { selectReports } from 'shared/config/store/selectors/reportSelectors';
-import { report } from 'process';
 import { ReportCard } from 'features/ReportCard/ReportCard';
+import { isAuthenticatedSelector } from 'shared/config/store/selectors/authSelectors';
+import { reportsSelector } from 'shared/config/store/selectors/reportSelectors';
+import { Slider } from 'widgets/Slider/UI/Slider';
 
 const MainPage = memo(() => {
     const dispatch = useAppDispatch();
 
-    const currentTrip = useAppSelector(tripDetailsSelector);
-    const isAuthenticated = useAppSelector(selectIsAuthenticated);
-    const reports = useSelector(selectReports);
+    const currentTrip = useAppSelector(currentTripSelector);
+    const isAuthenticated = useAppSelector(isAuthenticatedSelector);
+    const reports = useSelector(reportsSelector);
 
     useEffect(() => {
-        dispatch(getCurrentTrip());
         dispatch(getTripStatistics());
         dispatch(getReports());
     }, []);
@@ -32,10 +31,12 @@ const MainPage = memo(() => {
     
     return (
         <>
-            <section className={cls.userSection}>
-                {publishedReports.map(report =>
-                    <ReportCard report={report}/>
-                )}
+            <section className={cls.reportsSection}>
+                <Slider
+                    slides={publishedReports.map(report =>
+                        <ReportCard report={report}/>
+                    )}
+                />
             </section>
             {isAuthenticated &&
                 <section className={cls.userSection}>

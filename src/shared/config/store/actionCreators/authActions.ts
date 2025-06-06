@@ -33,8 +33,6 @@ export const refreshAuth = () => async (dispatch: AppDispatch) => {
     const cookies = new Cookies();
     try {
         await authApi.refresh();
-        const profileId = cookies.get('profile_id');
-        dispatch(getProfileById(profileId));
         dispatch(authActions.setAuthSuccess());
     } catch (error) {
         cookies.remove('profile_id')

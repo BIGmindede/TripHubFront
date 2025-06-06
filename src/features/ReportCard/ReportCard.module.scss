@@ -1,0 +1,127 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
+.reportCard {
+    display: grid;
+    grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+    width: 100%;
+    height: fit-content;
+    gap: 10px;
+
+    @include media-breakpoint-down(mobile) {
+        display: flex;
+        grid-template-columns: unset;
+        flex-direction: column;
+    }
+}
+
+.reportThumbnail {
+    width: 100%;
+    height: 100%;
+    max-height: 370px;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+}
+
+.reportInfo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+.journeyTrack {
+    width: 100%;
+    height: fit-content;
+}
+
+.reportButtons {
+    display: flex;
+    flex-wrap: wrap;
+    align-self: flex-end;
+    gap: 10px;
+    width: 100%;
+
+    .reportButton {
+        width: 100%;
+    }
+}
+
+.createTripModal {
+    max-width: 600px;
+    min-width: 300px;
+    height: fit-content !important;
+
+    .createTripForm {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+
+        @include media-breakpoint-down(mobile) {
+            grid-template-columns: 1fr;
+        }
+
+        .tripDataInputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .destinationInput {
+            width: 100%;
+        }
+
+        .participationInputs {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .searchedProfiles {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                background-color: var(--skeleton);
+                border-radius: 10px;
+                overflow: hidden;
+                padding: 10px;
+
+                &Card:hover {
+                    cursor: pointer;
+                    background-color: var(--standart-el);
+                }
+            }
+        }
+
+        .selectedParticipantsCard {
+            padding: 0 10px 0 5px;
+            justify-content: space-between;
+        }
+    }
+
+    .copyTripSection {
+        grid-column: 1 / 3;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        
+        @include media-breakpoint-down(mobile) {
+            grid-column: 1 / 2;
+        }
+
+        .selectParts {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 10px;
+
+            .selectPartCard {
+                width: fit-content;
+            }
+        }
+    }
+}

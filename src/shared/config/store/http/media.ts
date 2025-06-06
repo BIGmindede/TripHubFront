@@ -1,14 +1,14 @@
 import { api } from ".";
-import { MediaMetadata } from "../types/media";
+import { Media, MediaReqRes } from "../types/media";
 
 
 export const mediaApi = {
-  uploadFile: (file: File, metadata: Partial<MediaMetadata>) => {
+  uploadFile: (file: File, metadata: Partial<MediaReqRes>) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('metadata', JSON.stringify(metadata));
     
-    return api.post<MediaMetadata>('/media/upload', formData, {
+    return api.post<Media>('/media/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -16,5 +16,5 @@ export const mediaApi = {
   },
 
   getMediaByTrip: (tripId: string) => 
-    api.get<MediaMetadata[]>(`/media/trip/${tripId}`),
+    api.get<MediaReqRes[]>(`/media/trip/${tripId}`),
 };

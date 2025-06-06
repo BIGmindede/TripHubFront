@@ -1,4 +1,9 @@
-export interface MediaMetadata {
+export interface MediaGeodata {
+    lat: number;
+    lon: number;
+}
+
+export interface MediaReqRes {
   id: string;
   authorId: string;
   mediaUrl: string;
@@ -11,8 +16,21 @@ export interface MediaMetadata {
   fileSize: number;
 }
 
+export interface Media {
+  id: string;
+  authorId: string;
+  mediaUrl: string;
+  tripId: string;
+  isOpenedForPublish: boolean;
+  geodata: MediaGeodata;
+  description: string;
+  createdAt: string;
+  contentType: string;
+  fileSize: number;
+}
+
 export interface MediaState {
-  currentTripMedia: MediaMetadata[];
+  media: Media[];
   isLoading: boolean;
   error: string | null;
   uploadProgress: number;

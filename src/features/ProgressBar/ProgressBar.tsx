@@ -6,12 +6,10 @@ import PlusIcon from 'shared/assets/IonPlus.svg';
 import AcceptIcon from 'shared/assets/IonCheck.svg';
 import DeclineIcon from 'shared/assets/IonCrest.svg';
 import DeleteIcon from 'shared/assets/IonTrash.svg';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { HiddenInput } from 'shared/UI/HiddenInput/HiddenInput';
 import { Button, ButtonTheme } from 'shared/UI/Button/Button';
 import { Tooltip } from 'shared/UI/Tooltip/Tooltip';
-import { useAppDispatch } from 'shared/hooks/useAppDispatch';
-import { setTripOver } from 'shared/config/store/actionCreators/tripActions';
 
 interface ProgressBarProps {
     className?: string;
@@ -20,7 +18,6 @@ interface ProgressBarProps {
     setStages?: (stages: Array<string>, currentStage: number) => void;
 }
 export const ProgressBar = ({ className, stages, currentStageIndex, setStages }: ProgressBarProps) => {
-    const dispatch = useAppDispatch();
     const [inputValue, setInputValue] = useState<string>(null);
     const [currentInputIndex, setCurrentInputIndex] = 
         useState<{type: "edit" | "add", index: number}>(null);
@@ -226,7 +223,7 @@ export const ProgressBar = ({ className, stages, currentStageIndex, setStages }:
                     : "Добавьте этапы поездки"
                 }
             </Typography>
-            {stages && stages.length > 1 && currentStageIndex !== stages.length - 1 &&
+            {setStages && stages && stages.length > 1 && currentStageIndex !== stages.length - 1 &&
                 <Button
                     onClick={handleSetoverStage}
                     theme={ButtonTheme.BASIC}

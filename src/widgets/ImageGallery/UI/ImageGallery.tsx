@@ -9,10 +9,14 @@ import { Button, ButtonTheme } from 'shared/UI/Button/Button';
 import { AddImageForm } from './AddImageForm/AddImageForm';
 import { EditImageForm } from './EditImageForm/EditImageForm';
 import { MODAL_IDS } from 'shared/config/ModalContext/modalIds';
-import { MediaMetadata } from 'shared/config/store/types/media';
+import { Media, MediaGeodata } from 'shared/config/store/types/media';
+import { AppLink } from 'shared/UI/AppLink/AppLink';
+import DownloadIcon from 'shared/assets/IonDownload.svg';
+import MapIcon from 'shared/assets/IonMap.svg';
+import { Icon } from 'shared/UI/Icon/Icon';
 
 interface ImageGalleryProps {
-    images: MediaMetadata[];
+    images: Media[];
     title?: string;
     description?: string;
     onImageAdd?: (data: {
@@ -28,7 +32,7 @@ interface ImageGalleryProps {
     onImageDelete?: (id: string | number) => void;
 }
 
-interface ProcessedImage extends MediaMetadata {
+interface ProcessedImage extends Media {
     aspectRatio: number;
     width: number;
 }
@@ -49,14 +53,14 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
 
     const [rows, setRows] = useState<ProcessedImage[][]>([]);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [selectedImage, setSelectedImage] = useState<MediaMetadata | null>(null);
+    const [selectedImage, setSelectedImage] = useState<Media | null>(null);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     // Функция для загрузки размеров изображений
-    const loadImageDimensions = (image: MediaMetadata): Promise<ProcessedImage> => {
+    const loadImageDimensions = (image: Media): Promise<ProcessedImage> => {
         return new Promise((resolve) => {
             const img = document.createElement('img');
-            img.src=`http://localhost:9000/media/${image.mediaUrl}`;
+            img.src=`${process.env.MEDIA_STORAGE_URL}/${image.mediaUrl}`;
             img.onload = () => {
                 resolve({
                     ...image,
@@ -113,32 +117,7 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
         return () => window.removeEventListener('resize', processImages);
     }, [images]);
 
-    // Вычисляем ширину для каждого изображения в ряду
-    const calculateImageWidths = (row: ProcessedImage[], isLastRow: boolean) => {
-        if (!containerRef.current) return new Array(row.length).fill(0);
-
-        const containerWidth = containerRef.current.offsetWidth;
-        const totalSpacing = (row.length - 1) * SPACING;
-
-        // Для последнего ряда, если он не заполнен полностью
-        if (isLastRow) {
-            const naturalWidths = row.map(image => ROW_HEIGHT * image.aspectRatio);
-            const totalNaturalWidth = naturalWidths.reduce((sum, width) => sum + width, 0) + totalSpacing;
-            
-            if (totalNaturalWidth < containerWidth) {
-                return naturalWidths;
-            }
-        }
-
-        const availableWidth = containerWidth - totalSpacing;
-        const totalAspectRatio = row.reduce((sum, img) => sum + img.aspectRatio, 0);
-        
-        return row.map(image => 
-            (availableWidth * (image.aspectRatio / totalAspectRatio))
-        );
-    };
-
-    const onImageClick = (image: MediaMetadata) => {
+    const onImageClick = (image: Media) => {
         setSelectedImage(image);
     };
 
@@ -183,8 +162,42 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
         setSelectedImage(null);
     };
 
+    const handleDownloadImage = async () => {
+        if (selectedImage) {
+            try {
+                const response = await fetch(`${process.env.MEDIA_STORAGE_URL}/${selectedImage.mediaUrl}`);
+                const blob = await response.blob();
+                const mimeType = response.headers.get('content-type') || '';
+                let extension = mimeType.split('/')[1]; 
+                if (!extension) {
+                    const urlExtension = selectedImage.mediaUrl.split('.').pop();
+                    if (urlExtension) {
+                        extension = urlExtension;
+                    }
+                }
+                const fileName = `file.${extension}`;
+                const blobUrl = URL.createObjectURL(blob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = blobUrl;
+                downloadLink.download = fileName;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                console.error('Ошибка при скачивании файла:', error);
+            }
+        }
+    };
+
+    const handleShowOnMap = () => {
+        const ln = selectedImage.geodata.lon;
+        const lt = selectedImage.geodata.lat;
+        window.open(`https://https://yandex.ru/maps/?ll=${ln}_${lt}&z=16`, "_blank");
+    }
+
     return (
-        <WidgetWrapper heading={"Медиа"} className={cls.imageGalleryWrapper}>
+        <WidgetWrapper heading={title} className={cls.imageGalleryWrapper}>
             {description && (
                 <Typography 
                     variant="paragraph"
@@ -208,7 +221,7 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
                             className={rowClassName}
                             style={{ height: ROW_HEIGHT }}
                         >
-                            {row.map((image, index) => (
+                            {row.map((image) => (
                                 <div
                                     key={image.id}
                                     className={classNames(
@@ -218,7 +231,7 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
                                     onClick={() => onImageClick(image)}
                                 >
                                     <Image
-                                        src={`http://localhost:9000/media/${image.mediaUrl}`}
+                                        src={`${process.env.MEDIA_STORAGE_URL}/${image.mediaUrl}`}
                                         alt={"Картинка"}
                                         className={classNames(
                                             cls.image,
@@ -230,7 +243,6 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
                         </div>
                     );
                 })}
-                
                 <Modal
                     isOpen={!!selectedImage}
                     onClose={onModalClose}
@@ -241,30 +253,62 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
                     {selectedImage && (
                         <>
                             <Image
-                                src={`http://localhost:9000/media/${selectedImage.mediaUrl}`}
+                                src={`${process.env.MEDIA_STORAGE_URL}/${selectedImage.mediaUrl}`}
                                 alt={"Картинка"}
                                 className={cls.modalImage}
                             />
-                            <div className={cls.modalActions}>
-                                {onImageEdit && (
+                            <div className={cls.imageActions}>
+                                <Button
+                                    theme={ButtonTheme.BASIC}
+                                    className={cls.downloadButton}
+                                    onClick={handleDownloadImage}
+                                    icon={<Icon Svg={DownloadIcon} size={20} />}
+                                >
+                                    Скачать
+                                </Button>
+                                {selectedImage.geodata &&
                                     <Button
                                         theme={ButtonTheme.BASIC}
-                                        className={cls.editButton}
-                                        onClick={handleEditClick}
+                                        className={cls.showOnMapButton}
+                                        onClick={handleShowOnMap}
+                                        icon={<Icon Svg={MapIcon} size={20} />}
                                     >
-                                        Изменить
+                                        Показать на карте
                                     </Button>
-                                )}
-                                {onImageDelete && (
-                                    <Button
-                                        theme={ButtonTheme.OUTLINE}
-                                        className={cls.deleteButton}
-                                        onClick={handleDeleteImage}
-                                    >
-                                        Удалить
-                                    </Button>
-                                )}
+                                }
                             </div>
+                            {selectedImage?.description &&
+                                <div>
+                                    <Typography variant='heading' size='s'>
+                                        Описание
+                                    </Typography>
+                                    <Typography variant='paragraph' size='m'>
+                                        {selectedImage.description}
+                                    </Typography>
+                                </div>
+                            }
+                            {(onImageEdit || onImageDelete) &&
+                                <div className={cls.modalActions}>
+                                    {onImageEdit && (
+                                        <Button
+                                            theme={ButtonTheme.BASIC}
+                                            className={cls.editButton}
+                                            onClick={handleEditClick}
+                                        >
+                                            Изменить
+                                        </Button>
+                                    )}
+                                    {onImageDelete && (
+                                        <Button
+                                            theme={ButtonTheme.OUTLINE}
+                                            className={cls.deleteButton}
+                                            onClick={handleDeleteImage}
+                                        >
+                                            Удалить
+                                        </Button>
+                                    )}
+                                </div>
+                            }
                         </>
                     )}
                 </Modal>
@@ -278,7 +322,6 @@ export const ImageGallery = memo((props: ImageGalleryProps) => {
                 >
                     <AddImageForm
                         onSubmit={handleAddSubmit}
-                        onCancel={() => setIsAddModalOpen(false)}
                     />
                 </Modal>
 

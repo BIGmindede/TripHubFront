@@ -1,6 +1,9 @@
 import { classNames } from 'shared/lib/classNames/classNames';
 import { ImgHTMLAttributes, memo, useState } from 'react';
 import cls from './Image.module.scss';
+import { Icon } from '../Icon/Icon';
+import ImageIcon from 'shared/assets/IonImage.svg';
+import { useBreakpointDown } from 'shared/hooks/useBreakpoint';
 
 interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {
     className?: string;
@@ -14,9 +17,9 @@ export const Image = memo((props: ImageProps) => {
         src,
         alt = 'image',
         fallback,
-        errorFallback,
         ...otherProps
     } = props;
+    const isMobileDown = useBreakpointDown('mobile');
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
@@ -29,19 +32,16 @@ export const Image = memo((props: ImageProps) => {
         setHasError(true);
     };
 
-    if (hasError && errorFallback) {
+    if (hasError) {
         return (
-            <img
-                className={classNames(cls.img, {}, [className])}
-                src={errorFallback}
-                alt={alt}
-                {...otherProps}
-            />
+            <div className={classNames(cls.errorStub, {}, [className])}>
+                <Icon Svg={ImageIcon} size={isMobileDown ? 50 : 100}/>
+            </div>
         );
     }
 
     return (
-        <div className={classNames(cls.imageWrapper, {}, [className])}>
+        <>
             {isLoading && fallback && (
                 <img
                     className={classNames(cls.img, {}, [cls.fallback])}
@@ -50,13 +50,15 @@ export const Image = memo((props: ImageProps) => {
                 />
             )}
             <img
-                className={classNames(cls.img, { [cls.hidden]: isLoading })}
+                className={classNames(cls.img, { [cls.hidden]: isLoading }, [className])}
                 src={src}
                 alt={alt}
                 onLoad={onLoad}
                 onError={onError}
+                width={"100%"}
+                height={"100%"}
                 {...otherProps}
             />
-        </div>
+        </>
     );
 }); 

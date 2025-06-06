@@ -18,6 +18,7 @@ interface HiddenInputProps {
     headingSize?: HiddenInputSize;
     onSaveChanges?: () => void;
     onDeclineChanges?: () => void;
+    onStartEditClick?: () => void;
 };
 
 export const HiddenInput = (props: HiddenInputProps) => {
@@ -30,10 +31,16 @@ export const HiddenInput = (props: HiddenInputProps) => {
         onDeclineChanges,
         withButton = false,
         isHeading = false,
-        headingSize = 'm'
+        headingSize = 'm',
+        onStartEditClick,
     } = props;
 
     const {isToggleUp, toggle} = useToggle();
+
+    const handleStartEdit = () => {
+        onStartEditClick?.();
+        toggle();
+    }
 
     const handleSave = () => {
         onSaveChanges();
@@ -48,7 +55,7 @@ export const HiddenInput = (props: HiddenInputProps) => {
     return (
         <div className={cls.hiddenInput}>
             <input
-                disabled={withButton ? !isToggleUp : false}
+                disabled={withButton ? !isToggleUp : !onChange}
                 className={classNames(
                     cls.input,
                     {
@@ -65,7 +72,7 @@ export const HiddenInput = (props: HiddenInputProps) => {
             {withButton && (
                 isToggleUp 
                     ? <div className={cls.buttons}>
-                        <Button 
+                        <Button
                             theme={ButtonTheme.ROUND}
                             onClick={handleSave}
                             className={cls.toggleButton}
@@ -80,7 +87,7 @@ export const HiddenInput = (props: HiddenInputProps) => {
                     </div>
                     : <Button 
                         theme={ButtonTheme.ROUND}
-                        onClick={toggle}
+                        onClick={handleStartEdit}
                         className={cls.toggleButton}
                         icon={<Icon Svg={EditIcon} size={15}/>}
                     />

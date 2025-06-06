@@ -28,17 +28,21 @@
     .buttonText {
         line-height: 10px !important;
     }
+
 }
 
 .basic {
     transition: filter 0.10s ease-in-out;
     min-width: 150px;
     padding: 0 20px;
+    transition: filter 0.1s ease-in-out;
+
+    &:hover {
+        filter: brightness(0.85);
+    }
 }
 
-.basic:hover {
-    filter: brightness(0.85);
-}
+
 
 .round {
     padding: 0;
@@ -46,10 +50,11 @@
     width: 40px;
     border-radius: 100%;
     flex-shrink: 0;
-}
+    transition: filter 0.1s ease-in-out;
 
-.round:hover {
-    filter: brightness(0.95);
+    &:hover {
+        filter: brightness(0.85);
+    }
 }
 
 .clear {

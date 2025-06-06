@@ -68,4 +68,8 @@
 
 .addTaskModal {
     height: fit-content !important;
+    
+    .taskNameInput {
+        width: 100%;
+    }
 }

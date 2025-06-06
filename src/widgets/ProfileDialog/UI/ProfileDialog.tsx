@@ -6,9 +6,7 @@ import { DatePicker } from 'shared/UI/DatePicker/DatePicker';
 import { Input } from 'shared/UI/Input/Input';
 import { Dropdown } from 'shared/UI/Dropdown/Dropdown';
 import { countriesApi } from 'shared/config/api/countriesApi';
-import { selectProfile } from 'shared/config/store/selectors/profileSelectors';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
-import { updateProfile } from 'shared/config/store/actionCreators/profileActions';
 import { unauth } from 'shared/config/store/actionCreators/authActions';
 import { Profile } from 'shared/config/store/types/profileSlice.types';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
@@ -18,6 +16,8 @@ import { RoutePath } from 'shared/config/routeConfig/routeConfig';
 import { AppRoutes } from 'shared/config/routeConfig/routeConfig';
 import { useLocation } from 'react-router-dom';
 import { getCurrentTrip } from 'shared/config/store/actionCreators/tripActions';
+import { currentProfileSelector } from 'shared/config/store/selectors/profileSelectors';
+import { updateCurrentProfile } from 'shared/config/store/actionCreators/profileActions';
 
 interface ProfileDialogProps {
     isOpen: boolean;
@@ -31,7 +31,7 @@ export const ProfileDialog = ({ isOpen, onClose, anchorEl }: ProfileDialogProps)
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const profile = useAppSelector(selectProfile);
+  const profile = useAppSelector(currentProfileSelector);
 
   const [formData, setFormData] = useState<Profile>(profile);
   const [hasChanges, setHasChanges] = useState(false);
@@ -106,7 +106,7 @@ export const ProfileDialog = ({ isOpen, onClose, anchorEl }: ProfileDialogProps)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      dispatch(updateProfile(formData));
+      dispatch(updateCurrentProfile(formData));
       setHasChanges(false);
   };
 
@@ -148,7 +148,7 @@ export const ProfileDialog = ({ isOpen, onClose, anchorEl }: ProfileDialogProps)
             />
             <Dropdown 
                 className={cls.input}
-                value={formData?.country ?? ''}
+                value={formData?.country ?? null}
                 options={countries}
                 placeholder="Выберите страну"
                 searchable

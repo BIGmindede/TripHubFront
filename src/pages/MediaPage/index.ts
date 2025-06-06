@@ -1,5 +1,5 @@
-import { MainPageLazy } from './UI/MediaPage.lazy'
+import { MediaPageLazy } from './UI/MediaPage.lazy'
 
 export {
-    MainPageLazy as MainPage
+    MediaPageLazy as MediaPage
 }

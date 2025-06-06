@@ -1,3 +1,4 @@
+@use "shared/styles/mixins/mediaQueries" as *;
 @import '../../../shared/styles/mixins/scrollbar.scss';
 
 .imageGalleryWrapper {
@@ -97,6 +98,21 @@
 
 .modal {
     height: fit-content !important;
+}
+
+.imageActions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    @include media-breakpoint-down(mobile) { 
+        .downloadButton {
+            flex-grow: 1;
+        }
+        .showOnMapButton {
+            flex-grow: 1;
+        }
+    }
 }
 
 .modalActions {

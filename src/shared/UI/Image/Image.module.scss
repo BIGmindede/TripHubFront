@@ -1,19 +1,26 @@
 .imageWrapper {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    min-height: 50px;
 }
 
 .img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    border-radius: 10px;
+    overflow: hidden;
     
     &.hidden {
         display: none;
     }
 }
 
-.fallback {
-    position: absolute;
-    top: 0;
-    left: 0;
-} 
+.errorStub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--skeleton);
+    border-radius: 10px;
+}

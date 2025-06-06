@@ -12,16 +12,15 @@ import { Task } from 'shared/config/store/types/kanbanSlice.types';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
 import { getKanbanBoard, getKanbanTasks, updateKanbanTask, updateKanbanStatuses } from 'shared/config/store/actionCreators/kanbanActions';
-import { selectKanbanBoard, selectKanbanTasks, selectKanbanIsLoading, selectKanbanError } from 'shared/config/store/selectors/kanbanSelectors';
-import { Skeleton } from 'shared/UI/Skeleton/Skeleton';
-import { ErrorWidget } from 'widgets/ErrorWidget/UI/ErrorWidget';
 import { Form } from 'features/Form/UI/Form';
-import { getProfilesByIds } from 'shared/config/store/actionCreators/profilesActions';
 import { KanbanSearch } from './KanbanSearch/KanbanSearch';
 import { Profile } from 'shared/config/store/types/profileSlice.types';
-import { selectProfiles } from 'shared/config/store/selectors/profileSelectors';
 import { Button } from 'shared/UI/Button/Button';
-import { tripParticipationsSelector } from 'shared/config/store/selectors/tripSelectors';
+import { kanbanSelector, kanbanTasksSelector } from 'shared/config/store/selectors/kanbanSelectors';
+import { currentTripParticipationsSelector } from 'shared/config/store/selectors/tripSelectors';
+import { profilesSelector } from 'shared/config/store/selectors/profileSelectors';
+import { getProfilesByIds } from 'shared/config/store/actionCreators/profileActions';
+import { getCurrentTripParticipations } from 'shared/config/store/actionCreators/tripActions';
 
 interface KanbanBoardProps {
     className?: string;
@@ -35,10 +34,10 @@ export const KanbanBoard = memo((props: KanbanBoardProps) => {
     } = props;
 
     const dispatch = useAppDispatch();
-    const board = useAppSelector(selectKanbanBoard);
-    const tasks = useAppSelector(selectKanbanTasks);
-    const tripParticipations = useAppSelector(tripParticipationsSelector);
-    const profiles = useAppSelector(selectProfiles);
+    const board = useAppSelector(kanbanSelector);
+    const tasks = useAppSelector(kanbanTasksSelector);
+    const tripParticipations = useAppSelector(currentTripParticipationsSelector);
+    const profiles = useAppSelector(profilesSelector);
 
     // Состояние для drag and drop
     const [draggingTask, setDraggingTask] = useState<Task | null>(null);
@@ -58,6 +57,11 @@ export const KanbanBoard = memo((props: KanbanBoardProps) => {
     const [selectedAssignees, setSelectedAssignees] = useState<Profile[]>([]);
     const [groupedTasks, setGroupedTasks] = useState<Record<string, Task[]>>();
 
+    useEffect(() => {
+        if (tripId) {
+            dispatch(getCurrentTripParticipations(tripId));
+        }
+    }, [tripId]);
 
     // Загрузка данных при монтировании компонента
     useEffect(() => {
@@ -72,13 +76,6 @@ export const KanbanBoard = memo((props: KanbanBoardProps) => {
             dispatch(getKanbanTasks(board.id));
         }
     }, [board?.id]);
-
-    useEffect(() => {
-        if (tasks.length > 0) {
-            // TODO добавить получение id профилей из participants по id путешествия
-            dispatch(getProfilesByIds(tasks.map(task => task.implementerId)));
-        }
-    }, [tasks]);
 
     // Обработчик наведения на колонку
     useEffect(() => {

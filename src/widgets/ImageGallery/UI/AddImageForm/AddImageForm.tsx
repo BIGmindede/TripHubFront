@@ -10,16 +10,14 @@ interface AddImageFormProps {
     onSubmit: (data: {
         file: File;
         description?: string;
-        location?: { lat: number; lon: number };
+        geodata?: { lat: number; lon: number };
     }) => void;
-    onCancel: () => void;
 }
 
 export const AddImageForm = (props: AddImageFormProps) => {
     const {
         className,
         onSubmit,
-        onCancel
     } = props;
 
     const [file, setFile] = useState<File | null>(null);
@@ -31,7 +29,6 @@ export const AddImageForm = (props: AddImageFormProps) => {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) {
             setFile(selectedFile);
-            // Создаем URL для превью
             const url = URL.createObjectURL(selectedFile);
             setPreviewUrl(url);
         }
@@ -42,7 +39,7 @@ export const AddImageForm = (props: AddImageFormProps) => {
             onSubmit({
                 file,
                 description,
-                location: location || undefined
+                geodata: location
             });
         }
     };
@@ -74,8 +71,8 @@ export const AddImageForm = (props: AddImageFormProps) => {
                         )}
                     </label>
                 </div>
-
                 <TextArea
+                    label="Описание"
                     value={description}
                     onChange={setDescription}
                     placeholder="Описание изображения"

@@ -22,10 +22,6 @@ const tripStatisticsSlice = createSlice({
     setTripStatisticsError(state, action: PayloadAction<string | null>) {
       state.isLoading = false;
       state.error = action.payload;
-    },
-    clearTripDetails(state) {
-      state.statistics = null;
-      state.error = null;
     }
   }
 });

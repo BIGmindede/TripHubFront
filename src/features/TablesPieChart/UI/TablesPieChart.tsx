@@ -18,7 +18,7 @@ export const TablesPieChart = ({ className, tables, units = '' }: TablesPieChart
     // Функция для подсчета суммы значений в таблице
     const calculateTableSum = (table: TableWithColor) => {
         return table.rows.reduce((sum, row) => {
-            const value = parseInt(row[1].replace(/\D/g, ''), 10);
+            const value = parseInt((row[1] as string).replace(/\D/g, ''), 10);
             return sum + (isNaN(value) ? 0 : value);
         }, 0);
     };
@@ -38,8 +38,8 @@ export const TablesPieChart = ({ className, tables, units = '' }: TablesPieChart
         datasets: [
             {
                 data: hasData ? tables.map(calculateTableSum) : [100],
-                backgroundColor: hasData ? tables.map((_, index) => getColorByIndex(index)) : ['#D9D9D9'],
-                hoverBackgroundColor: hasData ? tables.map((_, index) => getColorByIndex(index)) : ['#D9D9D9'],
+                backgroundColor: hasData ? tables.map((_, index) => getColorByIndex(index)) : ['#C0C0C0'],
+                hoverBackgroundColor: hasData ? tables.map((_, index) => getColorByIndex(index)) : ['#A8A8A8'],
                 borderWidth: 0,
                 spacing: 5,
                 borderRadius: 3,

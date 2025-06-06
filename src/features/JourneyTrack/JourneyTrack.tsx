@@ -12,10 +12,12 @@ interface JourneyTrackProps {
 export const JourneyTrack = ({ className, vehicleForward, vehicleBack }: JourneyTrackProps) => {
     return (
         <div className={classNames(cls.journeyTrack, {}, [className])}>
-            <div className={cls.vehicles}>
-                <Icon Svg={VEHICLE_BY_TYPE[vehicleForward]} size={20}/>
-                <Icon Svg={VEHICLE_BY_TYPE[vehicleBack]} size={20}/>
-            </div>
+            {vehicleForward && vehicleBack &&
+                <div className={cls.vehicles}>
+                    <Icon Svg={VEHICLE_BY_TYPE[vehicleForward]} size={20}/>
+                    <Icon Svg={VEHICLE_BY_TYPE[vehicleBack]} size={20}/>
+                </div>
+            }
             <div className={cls.trackLine} />
         </div>
     );

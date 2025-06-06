@@ -13,15 +13,16 @@ import { Form } from 'features/Form/UI/Form';
 import { Input } from 'shared/UI/Input/Input';
 import { Dropdown } from 'shared/UI/Dropdown/Dropdown';
 import { TextArea } from 'shared/UI/TextArea/TextArea';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSearchProfilesByTagName, getSearchProfilesByName, getSearchProfilesByEmail } from 'shared/config/store/actionCreators/profilesActions';
-import { selectProfileById, selectProfiles, selectSearchProfiles } from 'shared/config/store/selectors/profileSelectors';
 import { Profile } from 'shared/config/store/types/profileSlice.types';
 import { AppDispatch } from 'app/providers/storeProvider/config/store';
 import { searchProfilesActions } from 'shared/config/store/reducers/searchProfilesSlice';
 import { DatePicker } from 'shared/UI/DatePicker/DatePicker';
 import { updateKanbanTask } from 'shared/config/store/actionCreators/kanbanActions';
 import dayjs from 'dayjs';
+import { profilesSelector, searchProfilesSelector } from 'shared/config/store/selectors/profileSelectors';
+import { useAppSelector } from 'shared/hooks/useAppSelector';
+import { getSearchProfilesByEmail, getSearchProfilesByName, getSearchProfilesByTagName } from 'shared/config/store/actionCreators/profileActions';
+import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 
 interface TaskCardProps {
     className?: string;
@@ -37,21 +38,26 @@ export const TaskCard = memo((props: TaskCardProps) => {
         isDragging,
         onDragStart
     } = props;
+    const dispatch = useAppDispatch();
 
-    const dispatch = useDispatch<AppDispatch>();
-
-    const implementer = useSelector(selectProfileById(task.implementerId));
-    const searchProfiles = useSelector(selectSearchProfiles);
-    const profiles = useSelector(selectProfiles);
-
+    const searchProfiles = useAppSelector(searchProfilesSelector);
+    const profiles = useAppSelector(profilesSelector);
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
     const [cardRect, setCardRect] = useState<DOMRect | null>(null);
 
+    const [certainImplementer, setCertainImplementer] = useState<Profile | null>(null);
     const [taskName, setTaskName] = useState(task.name);
     const [taskDescription, setTaskDescription] = useState(task.description);
-    const [taskImplmenter, setTaskImplmenter] = useState<Profile | null>(implementer);
+    const [taskImplmenter, setTaskImplmenter] = useState<Profile | null>(null);
     const [targetDate, setTargetDate] = useState(task.targetDate);
+
+    useEffect(() => {
+        if (task && profiles) {
+            setCertainImplementer(profiles.find(p => p.id === task.implementerId))
+        }
+    }, [task, profiles]);
 
     // Обновляем размеры карточки при изменении размера окна или прокрутке
     useEffect(() => {
@@ -111,7 +117,7 @@ export const TaskCard = memo((props: TaskCardProps) => {
         e.stopPropagation();
         setTaskName(task.name);
         setTaskDescription(task.description);
-        setTaskImplmenter(implementer);
+        setTaskImplmenter(certainImplementer);
         setTargetDate(task.targetDate);
         setIsModalOpen(true);
     }, []);
@@ -184,7 +190,7 @@ export const TaskCard = memo((props: TaskCardProps) => {
                 {
                     task.implementerId
                     ? <UserCard
-                        userName={implementer?.name}
+                        userName={certainImplementer?.name}
                     />
                     : <Typography variant='span' size='s'>
                         Не назначена
@@ -205,15 +211,16 @@ export const TaskCard = memo((props: TaskCardProps) => {
                     cancelText="Отменить"
                 >
                     <Input
+                        className={cls.taskNameInput}
                         label='Название задачи'
                         value={taskName}
                         onChange={setTaskName}
                     />
                     <Dropdown
                         label='Исполнитель'
-                        options={searchProfiles.length > 0 ? searchProfiles : profiles}
+                        options={searchProfiles.length < profiles.length ? searchProfiles : profiles}
                         value={taskImplmenter}
-                        optionValueKey="name"
+                        optionValueKey="tagName"
                         onChange={handleEditSetImplementer}
                         placeholder="Исполнитель"
                         searchable

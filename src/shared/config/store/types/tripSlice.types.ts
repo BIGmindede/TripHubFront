@@ -1,8 +1,10 @@
+import { ReportReqRes } from "./reportSlice.types";
+
 export interface Trip {
-  id: string;
+  id?: string;
   statusId?: number;
   statuses?: string[];
-  authorId: string;
+  authorId?: string;
   destination: string;
   startDate?: string;
   thumbnailUrl?: string;
@@ -30,18 +32,26 @@ export interface ParticipationAndNotificationInfo {
 }
 
 export interface TripAndParticipationsDTO {
+  report?: Partial<ReportReqRes>,
   trip: Trip;
   participationAndNotificationInfo: ParticipationAndNotificationInfo;
 }
 
-export interface TripState {
+export interface CurrentTripState {
+  currentTrip: Trip | null;
+  participations: Participation[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface TripDetailsState {
   trip: Trip | null;
   participations: Participation[];
   isLoading: boolean;
   error: string | null;
 }
 
-export interface TripsListState {
+export interface TripsState {
   trips: Trip[];
   isLoading: boolean;
   error: string | null;

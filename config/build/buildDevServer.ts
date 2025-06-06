@@ -5,7 +5,10 @@ export function buildDevServer(options: BuildOptions): DevServerConfiguration {
     return {
         port: options.port,
         open: true,
-        historyApiFallback: true,
+        historyApiFallback: {
+            disableDotRule: true, 
+            index: '/', 
+          },
         hot: true
     }
 }

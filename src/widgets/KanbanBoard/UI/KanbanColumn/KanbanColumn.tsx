@@ -16,15 +16,15 @@ import { DatePicker } from 'shared/UI/DatePicker/DatePicker';
 import { Dropdown } from 'shared/UI/Dropdown/Dropdown';
 import { Input } from 'shared/UI/Input/Input';
 import { TextArea } from 'shared/UI/TextArea/TextArea';
-import { selectSearchProfiles, selectProfiles, selectProfile } from 'shared/config/store/selectors/profileSelectors';
 import { Profile } from 'shared/config/store/types/profileSlice.types';
 import { Form } from 'features/Form';
 import { searchProfilesActions } from 'shared/config/store/reducers/searchProfilesSlice';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 import { addKanbanTask, updateKanbanTask } from 'shared/config/store/actionCreators/kanbanActions';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
-import { selectKanbanBoard } from 'shared/config/store/selectors/kanbanSelectors';
-import { getSearchProfilesByEmail, getSearchProfilesByName, getSearchProfilesByTagName } from 'shared/config/store/actionCreators/profilesActions';
+import { currentProfileSelector, profilesSelector, searchProfilesSelector } from 'shared/config/store/selectors/profileSelectors';
+import { kanbanSelector } from 'shared/config/store/selectors/kanbanSelectors';
+import { getSearchProfilesByEmail, getSearchProfilesByName, getSearchProfilesByTagName } from 'shared/config/store/actionCreators/profileActions';
 
 interface KanbanColumnProps {
     className?: string;
@@ -53,9 +53,9 @@ export const KanbanColumn = memo((props: KanbanColumnProps) => {
 
     const dispatch = useAppDispatch();
 
-    const searchProfiles = useSelector(selectSearchProfiles);
-    const board = useSelector(selectKanbanBoard);
-    const profiles = useSelector(selectProfiles);
+    const searchProfiles = useSelector(searchProfilesSelector);
+    const board = useSelector(kanbanSelector);
+    const profiles = useSelector(profilesSelector);
 
     const [taskName, setTaskName] = useState<string>();
     const [taskDescription, setTaskDescription] = useState<string>();
@@ -65,7 +65,7 @@ export const KanbanColumn = memo((props: KanbanColumnProps) => {
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
 
-    const currentProfile = useAppSelector(selectProfile);
+    const currentProfile = useAppSelector(currentProfileSelector);
 
     const handleOpenAddTaskModal = () => {
         setIsAddTaskModalOpen(true);
@@ -189,6 +189,7 @@ export const KanbanColumn = memo((props: KanbanColumnProps) => {
                             submitText="Сохранить"
                         >
                             <Input
+                                className={cls.taskNameInput}
                                 label='Название задачи'
                                 value={taskName}
                                 onChange={(n: string) => setTaskName(n)}

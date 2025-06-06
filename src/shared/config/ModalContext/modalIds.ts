@@ -15,13 +15,14 @@ export const MODAL_IDS = {
     // Parties modal
     ADD_PARTIES: 'add-parties-modal',
 
-    
     // BudgetTable modal
     ADD_BUDGET_TABLE: 'add-budget-table-modal',
-    // Add other modal IDs here as needed
-    // Example:
-    // USER_PROFILE: 'user-profile-modal',
-    // SETTINGS: 'settings-modal',
+
+    // ImagePicker modal
+    IMAGE_PICKER: 'image-picker-modal',
+
+    // Copy Trip modal
+    COPY_TRIP: 'copy-trip-modal',
 } as const;
 
 // Type for modal IDs

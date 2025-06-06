@@ -19,14 +19,12 @@ type Story = StoryObj<typeof meta>
 
 export const HeaderLight: Story = {
     args: {
-        isMobile: false,
         navigationStateSetter: () => {}
     }
 }
 
 export const HeaderDark: Story = {
     args: {
-        isMobile: false,
         navigationStateSetter: () => {}
     }
 }

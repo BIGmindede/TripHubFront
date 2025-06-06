@@ -7,7 +7,6 @@ import DeclineIcon from 'shared/assets/IonCrest.svg';
 import ViewIcon from 'shared/assets/IonView.svg';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
-import { selectNotifications } from 'shared/config/store/selectors/notificationsSelectors';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 import { deleteNotification, fetchNotificationsByProfile, handleNotificationAction, markNotificationAsRead } from 'shared/config/store/actionCreators/notificationsAction';
 import { HtmlButtonsTypes, HtmlTemplateAction, Notification, NotificationStatuses, NotificationTypes } from 'shared/config/store/types/notificationSlice.types';
@@ -16,7 +15,8 @@ import { Button, ButtonTheme } from 'shared/UI/Button/Button';
 import { Icon } from 'shared/UI/Icon/Icon';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes, RoutePath } from 'shared/config/routeConfig/routeConfig';
-import { selectProfile } from 'shared/config/store/selectors/profileSelectors';
+import { currentProfileSelector } from 'shared/config/store/selectors/profileSelectors';
+import { notificationsSelector } from 'shared/config/store/selectors/notificationsSelectors';
 
 interface NotificationsDialogProps {
     className?: string;
@@ -33,10 +33,10 @@ export const NotificationsDialog = (props: NotificationsDialogProps) => {
         anchorEl
     } = props;
     
-    const profile = useAppSelector(selectProfile);
+    const currentProfile = useAppSelector(currentProfileSelector);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const notifications = useAppSelector(selectNotifications);
+    const notifications = useAppSelector(notificationsSelector);
 
     const handleDeleteNotification = (notificationId: string) => {
         dispatch(deleteNotification(notificationId));
@@ -100,10 +100,10 @@ export const NotificationsDialog = (props: NotificationsDialogProps) => {
     };
 
     useEffect(() => {
-        if (profile?.id) {
-            dispatch(fetchNotificationsByProfile(profile?.id));
+        if (currentProfile?.id) {
+            dispatch(fetchNotificationsByProfile(currentProfile?.id));
         }
-    }, [profile]);
+    }, [currentProfile]);
 
     return (
         <Dialog

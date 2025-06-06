@@ -4,11 +4,12 @@ import cls from './EditImageForm.module.scss';
 import { Form } from 'features/Form';
 import { LocationPicker } from 'features/LocationPicker';
 import { TextArea } from 'shared/UI/TextArea/TextArea';
-import { MediaMetadata } from 'shared/config/store/types/media';
+import { Media } from 'shared/config/store/types/media';
+import { Image } from 'shared/UI/Image/Image';
 
 interface EditImageFormProps {
     className?: string;
-    image: MediaMetadata;
+    image: Media;
     onSubmit: (data: {
         description?: string;
         location?: { lat: number; lon: number };
@@ -26,11 +27,10 @@ export const EditImageForm = (props: EditImageFormProps) => {
 
     const [description, setDescription] = useState(image?.description ?? '');
     const [location, setLocation] = useState<{ lat: number; lon: number } | null>(
-        image ? JSON.parse(image.geodata) : null
+        image ? image.geodata : null
     );
 
     const handleSubmit = () => {
-        console.log('handleSubmit');
         onSubmit({
             description,
             location: location || undefined
@@ -44,7 +44,11 @@ export const EditImageForm = (props: EditImageFormProps) => {
             submitText="Сохранить"
         >
             <div className={cls.preview}>
-                <img src={image?.mediaUrl} alt="Preview" />
+                <Image
+                    src={image?.mediaUrl}
+                    alt="Preview"
+                    className={cls.previewImage}
+                />
             </div>
 
             <TextArea

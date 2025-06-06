@@ -1,0 +1,30 @@
+.itemsList {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .itemsWrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .itemWrapper {
+        width: 100%;
+        display: flex;
+        gap: 4px;
+    }
+
+    .deleteItemButton {
+        width: 30px;
+        height: 30px;
+    }
+
+    .addItemButton {
+        width: 100%;
+        align-self: flex-end;
+    }
+}

@@ -9,6 +9,9 @@ import { SVGProps } from 'react'
 import { CurrentTripPage } from 'pages/CurrentTripPage'
 import { UserTripsPage } from 'pages/UserTripsPage'
 import { ReportPage } from 'pages/ReportPage'
+import { ReportsPage } from 'pages/ReportsPage'
+import { MediaLibraryPage } from 'pages/MediaLibraryPage'
+import { MediaPage } from 'pages/MediaPage'
 
 export enum AppRoutes {
     MAIN = 'main',
@@ -33,22 +36,22 @@ export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.REPORT]: '/report',
     [AppRoutes.MEDIA_FOLDERS]: '/media_folders',
     [AppRoutes.MEDIA_FOLDER]: '/media_folder',
-    [AppRoutes.NOT_FOUND]: '*'
-}
+    [AppRoutes.NOT_FOUND]: '/*'
+} as const;
 
 export const navLinks: Record<string, string> = {
     [RoutePath.main]: "Главная страница",
-    [RoutePath.trips]: "Журнал путешествий",
     [RoutePath.reports]: "Отчеты пользователей",
+    [RoutePath.trips]: "Журнал путешествий",
     [RoutePath.media_folders]: "Библиотека",
-}
+} as const;
 
 export const navIcons: Record<string, React.FC<SVGProps<SVGSVGElement>>> = {
     [RoutePath.main]: HomeIcon,
     [RoutePath.trips]: TripsIcon,
     [RoutePath.reports]: ReportsIcon,
     [RoutePath.media_folders]: CloudIcon
-}
+} as const;
 
 export interface RouteConfig {
     path: string;
@@ -64,17 +67,17 @@ export const routeConfig: RouteConfig[] = [
     },
     {
         path: RoutePath.reports,
-        element: <MainPage/>, // Replace with actual ReportsPage component
+        element: <ReportsPage/>, 
         authOnly: false
     },
     {
         path: RoutePath.trips,
-        element: <UserTripsPage/>, // Replace with actual TripsPage component
+        element: <UserTripsPage/>, 
         authOnly: true
     },
     {
         path: RoutePath.current,
-        element: <CurrentTripPage/>, // Replace with actual CurrentTripPage component
+        element: <CurrentTripPage/>, 
         authOnly: true
     },
     {
@@ -84,22 +87,22 @@ export const routeConfig: RouteConfig[] = [
     },
     {
         path: RoutePath.report + "/:tripId",
-        element: <ReportPage/>, // Replace with actual ReportPage component
+        element: <ReportPage/>, 
+        authOnly: false
+    },
+    {
+        path: RoutePath.media_folders,
+        element: <MediaLibraryPage/>,
         authOnly: true
     },
-    // {
-    //     path: RoutePath.media_folders,
-    //     element: <MainPage/>, // Replace with actual MediaFoldersPage component
-    //     authOnly: true
-    // },
-    // {
-    //     path: RoutePath.media_folder,
-    //     element: <MainPage/>, // Replace with actual MediaFolderPage component
-    //     authOnly: true
-    // },
+    {
+        path: RoutePath.media_folder + "/:tripId",
+        element: <MediaPage/>,
+        authOnly: true
+    },
     {
         path: RoutePath.notfound,
         element: <NotFoundPage/>,
         authOnly: false
     }
-]
+] as const;

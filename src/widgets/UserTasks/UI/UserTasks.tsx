@@ -2,16 +2,16 @@ import { EdiTable } from 'features/EdiTable/EdiTable';
 import { EdiTableTheme } from 'features/EdiTable/EdiTable.types';
 import { WidgetWrapper } from 'features/WidgetWrapper/WidgetWrapper';
 import cls from './UserTasks.module.scss';
-import { selectKanbanTasks } from 'shared/config/store/selectors/kanbanSelectors';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
 import { Typography } from 'shared/UI/Typography/Typography';
 import { Button, ButtonTheme } from 'shared/UI/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes, RoutePath } from 'shared/config/routeConfig/routeConfig';
+import { kanbanTasksSelector } from 'shared/config/store/selectors/kanbanSelectors';
 
 export const UserTasks = () => {
     const navigate = useNavigate();
-    const tasks = useAppSelector(selectKanbanTasks);
+    const tasks = useAppSelector(kanbanTasksSelector);
 
     const handleRedirectKanban = () => {
         navigate(RoutePath[AppRoutes.KANBAN])

@@ -3,6 +3,7 @@
 .userTasks {
     position: relative;
     padding-bottom: 70px;
+    min-width: 274px;
 
     @include media-breakpoint-down(mobile) {
         padding-bottom: 60px;

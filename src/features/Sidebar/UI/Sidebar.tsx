@@ -5,7 +5,8 @@ import { navIcons } from 'shared/config/routeConfig/routeConfig'
 import { Switchers } from 'features/Switchers'
 import { Typography } from 'shared/UI/Typography/Typography'
 import { Icon } from 'shared/UI/Icon/Icon'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 interface SidebarProps {
     className?: string,
@@ -15,11 +16,12 @@ interface SidebarProps {
 
 export default ({ className, navLinks, state }: SidebarProps) => {
 
-    const [currentPageKey, setCurrentPageKey] = useState(window.location.pathname.split('/')[1]);
+    const location = useLocation();
+    const [currentPageKey, setCurrentPageKey] = useState(location.pathname.split('/')[1]);
 
-    const handleChangeCurrentPageKey = (key: string) => {
-        setCurrentPageKey(key.split('/')[1]);
-    }
+    useEffect(() => {
+        setCurrentPageKey(location.pathname.split('/')[1])
+    }, [location.pathname]);
 
     return (
         <div
@@ -35,7 +37,6 @@ export default ({ className, navLinks, state }: SidebarProps) => {
                                 {[cls.currentNavItem]: key.split('/')[1] === currentPageKey}
                             )} 
                             key={key}
-                            onClick={() => handleChangeCurrentPageKey(key)}
                         >
                             <AppLink className={cls.link} theme={AppLinkTheme.PRIMARY} to={key}>
                                 <div

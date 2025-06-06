@@ -10,14 +10,14 @@ export interface Task {
     name: string;
 }
 
-export interface KanbanBoardType {
+export interface Kanban {
     id: string;
     tripId: string;
     statuses: string[];
 }
 
 export interface KanbanState {
-    kanban: KanbanBoardType | null;
+    kanban: Kanban | null;
     tasks: Task[];
     isLoading: boolean;
     error: string | null;

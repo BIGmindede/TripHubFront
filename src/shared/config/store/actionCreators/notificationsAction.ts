@@ -3,37 +3,13 @@ import { ExtendedNotificationDTO, Notification } from "shared/config/store/types
 import { notificationsActions } from "../reducers/notificationsSlice";
 import { notificationsApi } from "shared/config/store/http/notifications";
 
-export const createAndSendNotification = (notificationData: ExtendedNotificationDTO) => 
-    async (dispatch: AppDispatch) => {
-        dispatch(notificationsActions.setNotificationsLoading());
-        try {
-            await notificationsApi.createAndSend(notificationData);
-        } catch (error) {
-            dispatch(notificationsActions.setNotificationsError(
-                error.response?.data?.message || 'Failed to create notification'
-            ));
-        }
-    };
-
-export const sendEmailNotification = (notificationData: ExtendedNotificationDTO) => 
-    async (dispatch: AppDispatch) => {
-        dispatch(notificationsActions.setNotificationsLoading());
-        try {
-            await notificationsApi.sendEmail(notificationData);
-        } catch (error) {
-            dispatch(notificationsActions.setNotificationsError(
-                error.response?.data?.message || 'Failed to send email notification'
-            ));
-        }
-    };
-
 export const fetchNotificationsByProfile = (profileId: string) => 
     async (dispatch: AppDispatch) => {
         dispatch(notificationsActions.setNotificationsLoading());
         try {
             const response = await notificationsApi.getByProfileId(profileId);
             const notifications: Notification[] = response.data;
-            dispatch(notificationsActions.setNotifications(notifications));
+            dispatch(notificationsActions.setNotificationsSuccess(notifications));
         } catch (error) {
             dispatch(notificationsActions.setNotificationsError(
                 error.response?.data?.message || 'Failed to fetch notifications'
@@ -71,7 +47,7 @@ export const deleteNotification = (notificationId: string) =>
         dispatch(notificationsActions.setNotificationsLoading());
         try {
             await notificationsApi.delete(notificationId);
-            dispatch(notificationsActions.removeNotification(notificationId));
+            dispatch(notificationsActions.deleteNotification(notificationId));
         } catch (error) {
             dispatch(notificationsActions.setNotificationsError(
                 error.response?.data?.message || 'Failed to delete notification'

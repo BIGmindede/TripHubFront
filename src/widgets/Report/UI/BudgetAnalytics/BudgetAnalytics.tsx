@@ -13,10 +13,8 @@ import { Modal } from 'features/Modal';
 import { Form } from 'features/Form';
 import { Input } from 'shared/UI/Input/Input';
 import { MODAL_IDS } from 'shared/config/ModalContext/modalIds';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { EdiTableTheme, TableData } from 'features/EdiTable/EdiTable.types';
-import { Typography } from 'shared/UI/Typography/Typography';
-import { table } from 'console';
 
 interface BudgetAnalyticsProps {
     heading: string;
@@ -64,7 +62,7 @@ export const BudgetAnalytics = ({
         if (debounceTimer.current) {
             clearTimeout(debounceTimer.current);
         }
-        debounceTimer.current = setTimeout(inner, 500);
+        debounceTimer.current = setTimeout(inner, 2000);
     }
 
     const setTableData = (tableIndex: number) => (newTableData: TableData) => {
@@ -84,9 +82,9 @@ export const BudgetAnalytics = ({
             className={cls.budget}
         >
             <div className={cls.budgetWrapper}>
-                <TablesPieChart tables={tableData ?? []}/>
-                {tableData && tableData.length > 0 && tableData.map((table, index) =>
-                    <div className={cls.tablesWrapper}>
+                <TablesPieChart units='руб.' tables={tableData ?? []}/>
+                <div className={cls.tablesWrapper}>
+                    {tableData && tableData.length > 0 && tableData.map((table, index) =>
                         <EdiTable
                             className={cls.budgetTable}
                             isExtendableWithRows
@@ -95,19 +93,19 @@ export const BudgetAnalytics = ({
                             tableData={table}
                             setTableData={isEditable ? setTableData(index) : undefined}
                         />
-                    </div>
-                )}
-                {isEditable && 
-                    <Button
-                        className={cls.addTableButton}
-                        theme={ButtonTheme.BASIC}
-                        icon={<Icon Svg={PlusIcon} size={20}/>}
-                        onClick={toggle}
-                    >
-                        Добавить расходы
-                    </Button>
-                }
+                    )}
+                </div>
             </div>
+            {isEditable && 
+                <Button
+                    className={cls.addTableButton}
+                    theme={ButtonTheme.BASIC}
+                    icon={<Icon Svg={PlusIcon} size={20}/>}
+                    onClick={toggle}
+                >
+                    Расходы
+                </Button>
+            }
             {isEditable && 
                 <Modal
                     modalId={MODAL_IDS.ADD_BUDGET_TABLE}

@@ -2,45 +2,35 @@ import { memo, useEffect } from 'react';
 import cls from './CurrentTripPage.module.scss';
 import { CurrentTrip } from 'widgets/CurrentTrip';
 import { WidgetWrapper } from 'features/WidgetWrapper/WidgetWrapper';
-import { tripDetailsSelector } from 'shared/config/store/selectors/tripSelectors';
+import { currentTripSelector } from 'shared/config/store/selectors/tripSelectors';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
-import { selectProfile } from 'shared/config/store/selectors/profileSelectors';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
-import { getCurrentTrip, getParticipationsByTripId } from 'shared/config/store/actionCreators/tripActions';
+import { getCurrentTripParticipations } from 'shared/config/store/actionCreators/tripActions';
 import { TripParties } from 'widgets/TripParties';
 import { getKanbanTasksByImplAndTrip } from 'shared/config/store/actionCreators/kanbanActions';
 import { UserTasks } from 'widgets/UserTasks/UI/UserTasks';
 import { Report } from 'widgets/Report';
 import { getReportByTripId } from 'shared/config/store/actionCreators/reportActions';
-import { selectTripMedia } from 'shared/config/store/selectors/mediaSelectors';
 import { ImageGallery } from 'widgets/ImageGallery';
 import { getMediaByTripId, uploadMedia } from 'shared/config/store/actionCreators/mediaActions';
+import { currentProfileSelector } from 'shared/config/store/selectors/profileSelectors';
+import { mediaSelector } from 'shared/config/store/selectors/mediaSelectors';
 
 const CurrentTripPage = memo(() => {
     const dispatch = useAppDispatch();
 
-    const currentTrip = useAppSelector(tripDetailsSelector);
-    const currentUser = useAppSelector(selectProfile);
-    const images = useAppSelector(selectTripMedia);
-
-    useEffect(() => {
-        dispatch(getCurrentTrip());
-    }, []);
+    const currentTrip = useAppSelector(currentTripSelector);
+    const currentUser = useAppSelector(currentProfileSelector);
+    const images = useAppSelector(mediaSelector);
 
     useEffect(() => {
         if (currentTrip && currentUser) {
-            dispatch(getParticipationsByTripId(currentTrip.id));
+            dispatch(getCurrentTripParticipations(currentTrip.id));
             dispatch(getKanbanTasksByImplAndTrip(currentUser.id, currentTrip.id));
             dispatch(getReportByTripId(currentTrip.id));
             dispatch(getMediaByTripId(currentTrip.id))
         }
     }, [currentTrip, currentUser]);
-
-    // onImageAdd?: (data: {
-    //     file: File;
-    //     description: string;
-    //     geodata?: { lat: number; lon: number };
-    // }) => void;
 
     const handleAddImage = (data: {
         file: File;
@@ -49,7 +39,7 @@ const CurrentTripPage = memo(() => {
     }) => {
         dispatch(uploadMedia(data.file, {
             description: data.description,
-            geodata: JSON.stringify(data.geodata),
+            geodata: data.geodata,
             authorId: currentUser.id,
             tripId: currentTrip.id
         }));
@@ -74,7 +64,11 @@ const CurrentTripPage = memo(() => {
                 <Report isEditable heading="Текущий отчет по путешествию"/>
             </section>
             <section className={cls.thirdRow}>
-                <ImageGallery onImageAdd={handleAddImage} images={images}/>
+                <ImageGallery
+                    title="Медиа"
+                    onImageAdd={handleAddImage}
+                    images={images}
+                />
             </section>
         </>
     );

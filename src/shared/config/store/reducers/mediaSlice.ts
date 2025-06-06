@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MediaMetadata, MediaState } from '../types/media';
+import { Media, MediaState } from '../types/media';
 
 const initialState: MediaState = {
-  currentTripMedia: [],
+  media: [],
   isLoading: false,
   error: null,
   uploadProgress: 0,
@@ -16,14 +16,14 @@ const mediaSlice = createSlice({
       state.isLoading = true;
       state.error = null;
     },
-    setMediaSuccess(state, action: PayloadAction<MediaMetadata[]>) {
+    setMediaSuccess(state, action: PayloadAction<Media[]>) {
       state.isLoading = false;
-      state.currentTripMedia = action.payload;
+      state.media = action.payload;
     },
-    setUploadMediaSuccess(state, action: PayloadAction<MediaMetadata>) {
+    setUploadMediaSuccess(state, action: PayloadAction<Media>) {
       state.isLoading = false;
-      state.currentTripMedia = [...state.currentTripMedia, action.payload];
-    },    
+      state.media = [...state.media, action.payload];
+    },
     setMediaError(state, action: PayloadAction<string>) {
       state.isLoading = false;
       state.error = action.payload;

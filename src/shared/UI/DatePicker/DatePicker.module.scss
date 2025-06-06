@@ -1,8 +1,10 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
 .datePicker {
     position: relative;
-    width: 100%;
     padding: 0 !important;
     gap: 2px;
+    width: 100%;
 
     &.disabled {
         opacity: 0.5;
@@ -16,41 +18,47 @@
 }
 
 .inputWrapper {
-    width: 100%;
-    cursor: pointer;
     background-color: var(--skeleton);
     border-radius: 10px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
     gap: 10px;
-    padding: 0 10px !important;
     overflow: hidden;
+    width: 100%;
 }
 
 .input {
     height: 100%;
+    width: 80px;
     padding: 10px 0 !important;
-    flex-grow: 1;
     font-size: 16px;
+    line-height: 20px;
     font-family: var(--font-family-content);
     background: transparent;
     transition: border-color 0.2s ease;
     border: none;
     color: var(--pale-txt);
-    width: calc(100% - 30px);
 
     &:focus {
         color: var(--accent-txt);
     }
+
+    @include media-breakpoint-down(mobile) {
+        font-size: 14px;
+        line-height: 18px;
+    }
 }
 
 .calendar {
+    cursor: pointer;
     position: absolute;
     top: calc(100% + 4px);
     right: 0;
     z-index: 1000;
     width: fit-content;
+    height: fit-content !important;
     background-color: var(--standart-el);
     border-radius: 10px;
     box-shadow: 0 0 10px 0 var(--transp-bg);
@@ -77,6 +85,7 @@
 }
 
 .daysGrid {
+    height: fit-content !important;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 8px;
@@ -86,12 +95,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 30px;
+    height: 20px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 4px;
     transition: background-color 0.1s ease;
 
     &:hover {
         background-color: var(--skeleton);
+    }
+    
+    &.currentDate {
+        background-color: var(--active-marker);
     }
 } 

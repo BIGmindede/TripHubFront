@@ -9,9 +9,12 @@
 
     .sector {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     
         &.basic {
-            background-color: var(--skeleton);
+            background-color: var(--sector-el);
             padding: 10px;
             border-radius: 10px;
         }

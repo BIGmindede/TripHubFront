@@ -7,19 +7,17 @@ import { Input } from 'shared/UI/Input/Input';
 import cls from './CreateTripModal.module.scss'
 import { DatePicker } from 'shared/UI/DatePicker/DatePicker';
 import { SearchInput } from 'features/SearchInput';
-import { getSearchProfilesByTagName, getSearchProfilesByEmail, getSearchProfilesByName } from 'shared/config/store/actionCreators/profilesActions';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
-import { useSelector } from 'react-redux';
-import { selectProfile, selectSearchProfiles } from 'shared/config/store/selectors/profileSelectors';
-import { Portal } from 'shared/UI/Portal/Portal';
 import { UserCard } from 'features/UserCard';
 import { Profile } from 'shared/config/store/types/profileSlice.types';
-import { profile } from 'console';
 import { searchProfilesActions } from 'shared/config/store/reducers/searchProfilesSlice';
 import { ToggleLabel } from 'shared/UI/ToggleLabel/ToggleLabel';
-import { createTrip } from 'shared/config/store/actionCreators/tripActions';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from 'shared/UI/Typography/Typography';
+import { currentProfileSelector, searchProfilesSelector } from 'shared/config/store/selectors/profileSelectors';
+import { useAppSelector } from 'shared/hooks/useAppSelector';
+import { getSearchProfilesByEmail, getSearchProfilesByName, getSearchProfilesByTagName } from 'shared/config/store/actionCreators/profileActions';
+import { createCurrentTrip } from 'shared/config/store/actionCreators/tripActions';
 
 type newTripKeys = keyof Trip;
 type newTripVals = Trip[newTripKeys];
@@ -34,13 +32,13 @@ export const CreateTripModal = ({isOpen, onClose}: CreateTripModalProps) => {
     const navigate = useNavigate();
 
     const containerRef = useRef<HTMLDivElement>();
-    const currentProfile = useSelector(selectProfile);
+    const currentProfile = useAppSelector(currentProfileSelector);
 
     const [newTrip, setNewTrip] = useState<Trip>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedParticipants, setSelectedParticipants] = useState<Profile[]>([]);
 
-    const searchedProfiles = useSelector(selectSearchProfiles);
+    const searchedProfiles = useAppSelector(searchProfilesSelector);
 
     const handleSetNewTripData = (key: newTripKeys, value: newTripVals) => {
         setNewTrip({
@@ -82,7 +80,8 @@ export const CreateTripModal = ({isOpen, onClose}: CreateTripModalProps) => {
     }
 
     const handleCreateTripSubmit = () => {
-        dispatch(createTrip({
+        dispatch(createCurrentTrip({
+            report: {},
             trip: { ...newTrip, authorId: currentProfile.id },
             participationAndNotificationInfo: {
                 participations: [
@@ -172,7 +171,7 @@ export const CreateTripModal = ({isOpen, onClose}: CreateTripModalProps) => {
                         </div>
                         : <div className={cls.profilesNotFound}>
                             <Typography variant='span' size='s'>
-                                Нет найденных участников
+                                Нет результатов поиска
                             </Typography>
                         </div>
                     }

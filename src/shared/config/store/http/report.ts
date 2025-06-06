@@ -12,12 +12,12 @@ export const reportApi = {
     getReportByTripId: (tripId: string) =>
         api.get<ReportReqRes>(`/reports/by_trip/${tripId}`),
 
-    getReportByArrivalTo: (arrivalTo: string) =>
+    getReportsByArrivalTo: (arrivalTo: string) =>
         api.get<ReportReqRes[]>(`/reports/by_arrivalto${arrivalTo}`),
 
     updateReport: (id: string, report: Partial<ReportReqRes>) =>
         api.put(`/reports/${id}`, report),
 
     updateReportByTripId: (tripId: string, report: Partial<ReportReqRes>) =>
-        api.put(`/reports/by_trip${tripId}`, report),
+        api.put(`/reports/by_trip/${tripId}`, report),
 };

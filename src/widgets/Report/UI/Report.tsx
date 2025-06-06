@@ -1,7 +1,6 @@
 import { WidgetWrapper } from 'features/WidgetWrapper/WidgetWrapper';
 import { BudgetAnalytics } from './BudgetAnalytics/BudgetAnalytics';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
-import { selectReport } from 'shared/config/store/selectors/reportSelectors';
 import { Button, ButtonTheme } from 'shared/UI/Button/Button';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
@@ -13,6 +12,10 @@ import { Input } from 'shared/UI/Input/Input';
 import cls from './Report.module.scss';
 import { Dropdown } from 'shared/UI/Dropdown/Dropdown';
 import { VehicleType } from 'shared/config/store/types/reportSlice.types';
+import { reportDetailsSelector } from 'shared/config/store/selectors/reportSelectors';
+import { ItemsList } from 'features/ItemsList';
+import { StagesTrack } from 'features/StagesTrack/StagesTrack';
+import { tripDetailsSelector } from 'shared/config/store/selectors/tripSelectors';
 
 const vehicles: Record<string,  VehicleType> = {
     "Водный транспорт": VehicleType.BOAT,
@@ -41,12 +44,13 @@ export const Report = ({
 }: ReportProps) => {
     const dispatch = useAppDispatch();
     
-    const report = useAppSelector(selectReport);
+    const report = useAppSelector(reportDetailsSelector);
+    const tripDetails = useAppSelector(tripDetailsSelector);
 
-    const [forwardVehicle, setForwardVehicle] = useState<string>()
-    const [backVehicle, setBackVehicle] = useState<string>()
-    const [arrivalTo, setArrivalto] = useState<string>()
-    const [departureFrom, setDepartureFrom] = useState<string>()
+    const [forwardVehicle, setForwardVehicle] = useState<string>();
+    const [backVehicle, setBackVehicle] = useState<string>();
+    const [arrivalTo, setArrivalto] = useState<string>();
+    const [departureFrom, setDepartureFrom] = useState<string>();
 
     const [notes, setNotes] = useState(report?.notes);
     const [equipmentTaken, setEquipmentTaken] = useState(report?.equipmentTaken);
@@ -62,9 +66,9 @@ export const Report = ({
         }
     }, [report]);
 
-    const handleSaveEquipmentTaken = () => {
+    const handleSaveEquipmentTaken = (items: string[]) => {
         dispatch(updateReport(report.id, {
-            equipmentTaken
+            equipmentTaken: items
         }));
     }
 
@@ -93,6 +97,11 @@ export const Report = ({
         <WidgetWrapper heading={heading}>
             {report &&
                 <>
+                    {report?.isPublished &&
+                        <WidgetWrapper.Sector className={cls.tripDetails}>
+                            <StagesTrack stages={tripDetails?.statuses ?? []}/>
+                        </WidgetWrapper.Sector>
+                    }
                     <WidgetWrapper.Sector heading='Как добирались' className={cls.tripDetails}>
                         <Form onSubmit={isEditable ? handleSaveTripDetails : undefined} submitText="Сохранить" className={cls.tripDetailsForm}>
                             <Dropdown
@@ -114,17 +123,17 @@ export const Report = ({
                             <Input
                                 className={cls.tripDetailsField}
                                 label='Поехали из'
-                                value={arrivalTo}
-                                onChange={setArrivalto}
-                                placeholder='Город...'
+                                value={departureFrom}
+                                onChange={setDepartureFrom}
+                                placeholder='Страна...'
                                 disabled={!isEditable}
                             />
                             <Input
                                 className={cls.tripDetailsField}
                                 label='Прибыли в'
-                                value={departureFrom}
-                                onChange={setDepartureFrom}
-                                placeholder='Город...'
+                                value={arrivalTo}
+                                onChange={setArrivalto}
+                                placeholder='Страна...'
                                 disabled={!isEditable}
                             />
                         </Form>
@@ -137,7 +146,7 @@ export const Report = ({
                         reportId={report.id}
                         type='plannedBudget'
                     />
-                    {report.totalBudget
+                    {isEditable && (report.totalBudget
                         ? <BudgetAnalytics
                             isEditable={isEditable}
                             tableData={report.totalBudget}
@@ -151,34 +160,29 @@ export const Report = ({
                         >
                             Итоговый бюджет
                         </Button>
-                    }
-                    <div></div>
-                    <WidgetWrapper.Sector heading="Что брали с собой">
-                        {isEditable
-                            ? <Form
-                                submitText={notes !== report.notes ? 'Сохранить' : undefined}
-                                onSubmit={notes !== report.notes ? handleSaveNotes : undefined}
-                            >
-                                <TextArea onChange={setNotes} value={notes}/>
-                            </Form>
-                            : <Typography variant='paragraph' size='m'>
-                                {notes}
-                            </Typography>
-                        }
-                    </WidgetWrapper.Sector>
-                    <WidgetWrapper.Sector heading="Заметки">
-                        {isEditable
-                            ? <Form
-                                submitText={equipmentTaken !== report.equipmentTaken ? 'Сохранить' : undefined}
-                                onSubmit={equipmentTaken !== report.equipmentTaken ? handleSaveEquipmentTaken : undefined}
-                            >
-                                <TextArea onChange={setEquipmentTaken} value={equipmentTaken}/>
-                            </Form>
-                            : <Typography variant='paragraph' size='m'>
-                                {notes}
-                            </Typography>
-                        }
-                    </WidgetWrapper.Sector>
+                    )}
+                    <div className={cls.reportNotes}>
+                        <WidgetWrapper.Sector heading="Что брали с собой">
+                            <ItemsList
+                                isEditable={isEditable}
+                                items={equipmentTaken}
+                                onSaveChanges={handleSaveEquipmentTaken}
+                            />
+                        </WidgetWrapper.Sector>
+                        <WidgetWrapper.Sector heading="Заметки">
+                            {isEditable
+                                ? <Form
+                                    submitText={notes !== report.notes ? 'Сохранить' : undefined}
+                                    onSubmit={notes !== report.notes ? handleSaveNotes : undefined}
+                                >
+                                    <TextArea onChange={setNotes} value={notes}/>
+                                </Form>
+                                : <Typography variant='paragraph' size='m'>
+                                    {notes}
+                                </Typography>
+                            }
+                        </WidgetWrapper.Sector>
+                    </div>
                 </>
             }
         </WidgetWrapper>

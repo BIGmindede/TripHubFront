@@ -1,3 +1,5 @@
+@use "shared/styles/mixins/mediaQueries" as *;
+
 .inputContainer {
     display: flex;
     flex-direction: column;
@@ -27,20 +29,25 @@
     min-width: 100px;
     height: 40px;
     border: 0;
+    font-family: var(--font-family-content);
     font-size: 16px;
-    line-height: 22px;
+    line-height: 20px;
     background-color: var(--skeleton);
     padding: 10px;
     display: flex;
     border-radius: 10px;
-    font-family: var(--font-family-content);
     color: var(--accent-txt);
-
+    
     &::placeholder {
         color: var(--pale-txt);
     }
 
     &.withPrefix {
         padding-left: 34px;
+    }
+
+    @include media-breakpoint-down(mobile) {
+        font-size: 14px;
+        line-height: 18px;
     }
 }

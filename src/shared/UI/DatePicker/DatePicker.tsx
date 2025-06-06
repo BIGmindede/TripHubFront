@@ -174,7 +174,15 @@ export const DatePicker = memo((props: DatePickerProps) => {
                         {days.map((day, index) => (
                             <div
                                 key={index}
-                                className={classNames(cls.day, {[cls.empty]: !day})}
+                                className={classNames(
+                                    cls.day,
+                                    {
+                                        [cls.empty]: !day,
+                                        [cls.currentDate]: !!day 
+                                            ? dayjs(day).isSame(dayjs(Date.now()), 'day')
+                                            : false
+                                    }
+                                )}
                                 onClick={() => day && handleDateSelect(day)}
                             >
                                 <Typography variant="span" size="m">

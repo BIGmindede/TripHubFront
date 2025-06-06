@@ -1,5 +1,9 @@
 @use "shared/styles/mixins/mediaQueries" as *;
 
+.reportsSection {
+    width: 100%;
+}
+
 .userSection {
     display: flex;
     gap: 10px;

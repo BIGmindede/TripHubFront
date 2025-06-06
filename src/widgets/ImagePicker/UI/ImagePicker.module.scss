@@ -1,0 +1,64 @@
+.modal {
+    height: fit-content !important;
+}
+
+.imagePicker {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fileInput {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+}
+
+.label {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--pale-txt);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-family-content);
+
+    &:hover {
+        border-color: var(--accent-txt);
+        background: var(--scrollbar);
+    }
+}
+
+.preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+
+    img {
+        max-width: 100%;
+        max-height: calc(100% - 20px);
+        object-fit: contain;
+    }
+}
+
+.placeholder {
+    color: var(--pale-txt);
+    font-size: 16px;
+    text-align: center;
+    padding: 20px;
+} 

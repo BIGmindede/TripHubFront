@@ -1,3 +1,3 @@
 import { lazy } from 'react'
 
-export const MainPageLazy = lazy(() => import('./MediaPage'))
+export const MediaPageLazy = lazy(() => import('./MediaPage'))

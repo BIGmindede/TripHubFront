@@ -2,6 +2,7 @@
 
 .tripDetails {
     background-color: transparent !important;
+    padding: 0 !important;
 
     &Form {
         margin-top: 10px;
@@ -20,5 +21,15 @@
 
     &Field {
         width: 100%;
+    }
+}
+
+.reportNotes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+    @include media-breakpoint-down(tablet) {
+        grid-template-columns: 1fr;
     }
 }

@@ -52,8 +52,13 @@
 
 .editTaskModal {
     height: fit-content !important;
+    
+    .taskNameInput {
+        width: 100%;
+    }
+
+    .modalDescriptionInput {
+        min-height: 300px;
+    }
 }
 
-.modalDescriptionInput {
-    min-height: 300px;
-}

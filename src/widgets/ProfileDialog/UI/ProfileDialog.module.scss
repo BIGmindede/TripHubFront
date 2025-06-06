@@ -1,11 +1,11 @@
 @import 'shared/styles/mixins/mediaQueries';
 
 .profileDialog {
-  max-height: 405px;
+  max-height: 420px;
   max-width: 300px;
 
   @include media-breakpoint-down(mobile) {
-    max-height: 395px;
+    max-height: 400px;
   }
 }
 

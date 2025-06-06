@@ -1,7 +1,12 @@
 @use "shared/styles/mixins/mediaQueries" as *;
 
 .userTripsSection {
+    width: 100%;
     display: grid;
     gap: 10px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+
+    @include media-breakpoint-down(mobile) {
+        grid-template-columns: 1fr;
+    }
 }

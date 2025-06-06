@@ -43,19 +43,37 @@ export interface Report {
     backVehicle?: VehicleType;
     plannedBudget?: budgetTables;
     totalBudget?: budgetTables;
-    equipmentTaken?: string;
+    equipmentTaken?: string[];
     notes?: string;
     isPublished?: boolean;
+    thumbnailUrl?: string;
 };
 
-export interface ReportReqRes extends Omit<Report, "plannedBudget" | "totalBudget"> {
+export interface ReportReqRes extends Omit<Report, "plannedBudget" | "totalBudget" | "equipmentTaken"> {
     plannedBudget: string;
     totalBudget: string;
+    equipmentTaken: string;
 }
 
-export interface ReportState {
+export interface ReportsState {
     reports: ReportReqRes[],
+    isLoading: boolean,
+    error: null | string,
+}
+
+export interface ReportDetailsState {
     report: Report | null,
     isLoading: boolean,
     error: null | string,
 }
+
+export interface ReportCopy extends Pick<
+    ReportReqRes,
+    'forwardVehicle' |
+    'backVehicle' |
+    'plannedBudget' |
+    'equipmentTaken' |
+    'arrivalTo'
+> {};
+
+export type reportCopyKeys = keyof ReportCopy;

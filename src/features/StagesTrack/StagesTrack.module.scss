@@ -1,0 +1,47 @@
+.stagesTrack {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+}
+
+.line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background-color: var(--active-marker);
+    transform: translateY(-50%);
+}
+
+.stages {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 30px;
+}
+
+.stage {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    transform: rotate(-180deg);
+    height: fit-content;
+    width: fit-content;
+    writing-mode: vertical-lr;
+    height: auto;
+}
+
+.dot {
+  position: absolute;
+  top: -30px;
+  height: 20px;
+  width: 20px;
+  border-radius: 15px;
+  background-color: var(--active-marker);
+}
+
+.stageTitle {
+  word-break: break-all;
+} 

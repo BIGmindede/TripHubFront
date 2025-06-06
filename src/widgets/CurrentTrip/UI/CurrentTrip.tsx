@@ -10,10 +10,12 @@ import { Trip } from "shared/config/store/types/tripSlice.types";
 import { TableData } from "features/EdiTable/EdiTable.types";
 import { HiddenInput } from "shared/UI/HiddenInput/HiddenInput";
 import { DatePicker } from "shared/UI/DatePicker/DatePicker";
-import { tripDetailsSelector, tripParticipationsSelector } from "shared/config/store/selectors/tripSelectors";
-import { setTripOver, updateTrip } from "shared/config/store/actionCreators/tripActions";
+import { currentTripParticipationsSelector, currentTripSelector, tripDetailsSelector } from "shared/config/store/selectors/tripSelectors";
 import { useAppDispatch } from "shared/hooks/useAppDispatch";
 import { useAppSelector } from "shared/hooks/useAppSelector";
+import { setCurrentTripOver, updateCurrentTrip } from "shared/config/store/actionCreators/tripActions";
+import { useToggle } from "shared/hooks/useToggle";
+import { mediaSelector } from "shared/config/store/selectors/mediaSelectors";
 
 type TripKeys = keyof Pick<Trip, "destination" | "startDate" | "endDate">
 
@@ -44,8 +46,9 @@ const CurrentTrip = ({
 }: CurrentTripProps) => {
   const dispatch = useAppDispatch();
 
-  const currentTrip = useAppSelector(tripDetailsSelector);
-  const currentParticipations = useAppSelector(tripParticipationsSelector);
+  const currentTrip = useAppSelector(currentTripSelector);
+  const currentParticipations = useAppSelector(currentTripParticipationsSelector);
+  const currentTripMedia = useAppSelector(mediaSelector);
 
   const navigate = useNavigate();
   const [isModified, setIsModified] = useState<boolean>(false)
@@ -70,7 +73,7 @@ const CurrentTrip = ({
       setTrip(prev => {
         const updatedTrip = { ...prev };
         data.rows.forEach(([key, value]) => {
-          updatedTrip[tripHeaderColumnDataMapReverse[key]] = value;
+          updatedTrip[tripHeaderColumnDataMapReverse[key]] = value as string;
         });
         return updatedTrip;
       })
@@ -78,15 +81,17 @@ const CurrentTrip = ({
   }
 
   const handleSaveTripData = () => {
-    dispatch(updateTrip(trip))
+    dispatch(updateCurrentTrip(trip))
   }
 
   const handleSetStages = (statuses: string[], statusId: number) => {
-    dispatch(updateTrip({...currentTrip, statuses, statusId: statusId}))
+    dispatch(updateCurrentTrip({...currentTrip, statuses, statusId: statusId}))
   }
 
   const handleSetTripOver = () => {
-    dispatch(setTripOver(currentParticipations.map(p => p.id)));
+    dispatch(updateCurrentTrip({ ...currentTrip, thumbnailUrl: currentTripMedia?.[0]?.mediaUrl ?? null }));
+    dispatch(setCurrentTripOver(currentParticipations.map(p => p.id)));
+    navigate(`${RoutePath[AppRoutes.REPORT]}/${currentTrip.id}`);
   }
 
   useEffect(() => {
@@ -148,12 +153,15 @@ const CurrentTrip = ({
           Перейти
         </Button>
       )}
-      {currentTrip.statuses && currentTrip.statusId === currentTrip.statuses.length - 1 && currentTrip.statuses.length > 1 &&
+      {currentTrip.statuses &&
+        currentTrip.statusId === currentTrip.statuses.length - 1 &&
+        currentTrip.statuses.length > 1 &&
+        isEditable &&
         <Button
           onClick={handleSetTripOver}
           theme={ButtonTheme.BASIC}
         >
-          Завершить поездку
+          Завершить
         </Button>
       }
     </div>

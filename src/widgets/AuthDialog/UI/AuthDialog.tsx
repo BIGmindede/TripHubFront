@@ -7,8 +7,8 @@ import { Button, ButtonTheme } from 'shared/UI/Button/Button';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch';
 import { useAppSelector } from 'shared/hooks/useAppSelector';
 import { login, register } from 'shared/config/store/actionCreators/authActions';
-import { selectAuthIsLoading, selectAuthError } from 'shared/config/store/selectors/authSelectors';
 import cls from './AuthDialog.module.scss';
+import { authErrorSelector, authIsLoadingSelector } from 'shared/config/store/selectors/authSelectors';
 
 interface AuthDialogProps {
     isOpen: boolean;
@@ -22,9 +22,8 @@ export const AuthDialog = ({ isOpen, onClose, anchorEl }: AuthDialogProps) => {
     const { isToggleUp: isLogin, toggle: toggleLogin } = useToggle(true);
     const dispatch = useAppDispatch();
     
-    // Используем селекторы вместо локального состояния
-    const isLoading = useAppSelector(selectAuthIsLoading);
-    const error = useAppSelector(selectAuthError);
+    const isLoading = useAppSelector(authIsLoadingSelector);
+    const error = useAppSelector(authErrorSelector);
     
     const handleSubmitLogin = async () => {
         try {

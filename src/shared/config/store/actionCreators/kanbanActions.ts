@@ -1,7 +1,7 @@
 import { AppDispatch } from "app/providers/storeProvider/config/store";
 import { kanbanActions } from "../reducers/kanbanSlice";
 import { kanbanApi } from "../http/kanban";
-import { Task, KanbanBoardType } from "../types/kanbanSlice.types";
+import { Kanban, Task } from "../types/kanbanSlice.types";
 // import { mockState } from "../reducers/kanbanSlice";
 // Action types
 export const GET_KANBAN_BOARD = 'kanban/getKanbanBoard';
@@ -76,7 +76,7 @@ export const deleteKanbanTask = (taskId: string) => async (dispatch: AppDispatch
     }
 };
 
-export const updateKanbanStatuses = (kanban: KanbanBoardType, statuses: string[]) => async (dispatch: AppDispatch) => {
+export const updateKanbanStatuses = (kanban: Kanban, statuses: string[]) => async (dispatch: AppDispatch) => {
     dispatch(kanbanActions.setKanbanLoading());
     try {
         const updatedKanban = { ...kanban, statuses };

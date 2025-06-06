@@ -6,7 +6,6 @@ import { Icon } from 'shared/UI/Icon/Icon';
 import { Typography } from 'shared/UI/Typography/Typography';
 import { DatePicker } from 'shared/UI/DatePicker/DatePicker';
 import { HiddenInput } from 'shared/UI/HiddenInput/HiddenInput';
-import { useRef } from 'react';
 
 
 interface EdiTableProps {
@@ -18,8 +17,6 @@ interface EdiTableProps {
     setTableData?: TableDataSetter;
     isExtendableWithRows?: boolean;
     inputFields?: Array<typeof HiddenInput | typeof DatePicker>;
-    onSave?: () => void;
-    withDebounce?: boolean;
 }
 
 export const EdiTable = ({
@@ -30,9 +27,7 @@ export const EdiTable = ({
     isHeaderColumnEditable = true,
     isHatEditable = true,
     isExtendableWithRows = false,
-    inputFields,
-    withDebounce = false,
-    onSave
+    inputFields
 }: EdiTableProps) => {
 
     // Функция для изменения значения ячейки в заголовке
@@ -80,67 +75,63 @@ export const EdiTable = ({
     return (
         <div className={cls.ediTableWrapper}>
             {tableData.key && 
-                <Typography variant='bold' size='m'>{tableData.key}</Typography>
+                <Typography
+                    variant='bold'
+                    size='m'
+                    className={cls.ediTableTitle}
+                >
+                    {tableData.key}
+                </Typography>
             }
-            <table className={classNames(cls.ediTable, {[cls[theme]]: theme}, [className])}>
-                {tableData.hat && 
-                    <thead>
-                        <tr className={cls.row}>
-                            {tableData.hat.map((col: string, index) => 
-                                <td key={index} className={cls.col}>
-                                    {setTableData && isHatEditable
-                                        ? <HiddenInput
-                                            className={cls.editableField}
-                                            withButton={false}
-                                            value={col} 
-                                            onChange={(value) => handleHatChange(value, index)}
-                                        />
-                                        : <Typography variant='span' size='s'>
-                                            {col}
-                                        </Typography>
-                                    }
-                                </td>
-                            )}
-                        </tr>
-                    </thead>
-                }
-                <tbody>
-                    {tableData.rows.map((row, rowIndex) => {
-                        const InputField = inputFields 
-                            ? inputFields[rowIndex]
-                            : HiddenInput
-                        return (
-                            <tr key={rowIndex} className={cls.row}>
-                                {row.map((col: string, colIndex) =>
-                                    <td key={colIndex} className={cls.col}>
-                                        {setTableData && isHeaderColumnEditable || 
-                                            (!isHeaderColumnEditable && colIndex !== 0)
-                                                ? <InputField
-                                                    className={cls.editableField}
-                                                    withButton={false}
-                                                    value={col}
-                                                    onChange={(value) => handleCellChange(value, rowIndex, colIndex)}
-                                                />
-                                                : <Typography variant='span' size='s'>
-                                                    {col}
-                                                </Typography>
-                                        }
-                                    </td>
-                                )}
-                            </tr>
-                        )
-                    })}
-                </tbody>
+            <div className={classNames(cls.ediTable, {[cls[theme]]: theme}, [className])}>
+                {tableData.hat && tableData.hat.map((col: string, index) => 
+                    setTableData && isHatEditable
+                        ? <div className={cls.ediTableFieldHat} key={index}>
+                            <HiddenInput
+                                withButton={false}
+                                value={col} 
+                                onChange={(value) => handleHatChange(value, index)}
+                            />
+                        </div>  
+                        : <div className={cls.nonEditableFieldHat} key={index}>
+                            <Typography
+                                variant='span'
+                                size='s'
+                            >
+                                {col}
+                            </Typography>
+                        </div>      
+                )}
+                {tableData.rows.map((row, rowIndex) => {
+                    const InputField = inputFields
+                        ? inputFields[rowIndex]
+                        : HiddenInput
+                    return row.map((col: string, colIndex) =>
+                        setTableData && isHeaderColumnEditable || 
+                        (!isHeaderColumnEditable && colIndex !== 0)
+                            ? <div className={cls.editableField} key={colIndex}>
+                                <InputField
+                                    withButton={false}
+                                    value={col}
+                                    onChange={(value) => handleCellChange(value, rowIndex, colIndex)}
+                                />
+                            </div>
+                            : <div className={cls.nonEditableField} key={colIndex}>
+                                <Typography
+                                    variant='span'
+                                    size='s'
+                                >
+                                    {col}
+                                </Typography>
+                            </div>
+                    )
+                })}
                 {setTableData && isExtendableWithRows &&
-                    <tfoot>
-                        <tr onClick={handleAddRow} className={classNames(cls.row, {[cls.rowPlus]: !!setTableData})}>
-                            <td className={cls.col} style={{ cursor: 'pointer' }}>
-                               <Icon Svg={IonPlus} size={20}/> 
-                            </td>
-                        </tr>
-                    </tfoot>
+                    <div onClick={handleAddRow} className={cls.plusRow}>
+                        <Icon Svg={IonPlus} size={20}/> 
+                    </div>
                 }
-            </table>
+            </div>
         </div>
     );
 };
